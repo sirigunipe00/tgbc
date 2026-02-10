@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1055389109779",
+    "project_id": "tgbc-app",
+    "storage_bucket": "tgbc-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055389109779:android:31f79506d9cd26b56879e6",
+        "android_client_info": {
+          "package_name": "in.easycloud.tgbc_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmt0Sp9GOj0YxUYrtbn_fuwZ7HabGrZpk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
