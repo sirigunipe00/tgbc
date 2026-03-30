@@ -9,14 +9,15 @@ class AppIcons {
   static const info = AppIcon('$iconsPath/info.png');
   static const confirm = AppIcon('$iconsPath/confirm.png');
 
-  static const cooltechlogo = AppIcon('$basePath/logo/tgbc_logo.png');
+  static const cooltechlogo = AppIcon('$basePath/logo/tgbc_logo1.png');
+  static const tgbcappicon = AppIcon('$basePath/icons/appicon2.png');
   static const vechileEntry = AppIcon('$basePath/logo/vehicle_entry.png');
   static const vehcileExit = AppIcon('$basePath/logo/vehicle_exit.png');
   static const vtr = AppIcon('$basePath/logo/vtr.png');
-   static const pufEntry = AppIcon('$basePath/logo/logo3.png');
-   static const AppIcon assembly1 = AppIcon('$basePath/logo/unit 1.png');
-    static const AppIcon assembly2 = AppIcon('$basePath/logo/unit2.png');
-     static const AppIcon credits = AppIcon('$basePath/logo/credits.png');
+  static const pufEntry = AppIcon('$basePath/logo/logo3.png');
+  static const AppIcon assembly1 = AppIcon('$basePath/logo/unit 1.png');
+  static const AppIcon assembly2 = AppIcon('$basePath/logo/unit2.png');
+  static const AppIcon credits = AppIcon('$basePath/logo/credits.png');
   static const helloCuate = AppIcon('$basePath/logo/hello_cuate.svg');
   static const bgFrame1 = AppIcon('$basePath/logo/bg_frame_1.png');
   static const bgFrame2 = AppIcon('$basePath/logo/bg_frame_2.png');

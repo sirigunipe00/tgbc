@@ -50,7 +50,9 @@ class _Unit1WidgetState extends State<Unit1Widget> {
       setState(() {
         scannedMachines.add(barcodeScanRes);
       });
-      context.bloc<CreateUnit1Cubit>().request(barcodeScanRes);
+      if (context.mounted) {
+        context.bloc<CreateUnit1Cubit>().request(barcodeScanRes);
+      }
     }
   }
 
@@ -109,7 +111,9 @@ class _Unit1WidgetState extends State<Unit1Widget> {
                         return AppDialog.showSuccessDialog(context,
                                 content: data, onTapDismiss: context.pop)
                             .then((_) {
-                          context.cubit<Unit1ListCubit>().fetchInitial('');
+                          if (context.mounted) {
+                            context.cubit<Unit1ListCubit>().fetchInitial('');
+                          }
                         });
                       },
                       failure: (failure) {
@@ -132,7 +136,9 @@ class _Unit1WidgetState extends State<Unit1Widget> {
                           ),
                         ).then(
                           (value) {
-                            context.cubit<Unit1ListCubit>().fetchInitial('');
+                            if (context.mounted) {
+                              context.cubit<Unit1ListCubit>().fetchInitial('');
+                            }
                           },
                         );
                       },
@@ -192,8 +198,6 @@ class _Unit1WidgetState extends State<Unit1Widget> {
                             ),
                           ),
                           const SizedBox(width: 4),
-
-                       
                           state.when(
                             initial: () => const Text(
                               '...',
@@ -246,8 +250,10 @@ class _Unit1WidgetState extends State<Unit1Widget> {
             Expanded(
               child: Center(
                 child: RefreshIndicator(
-                  onRefresh: () =>
-                      context.cubit<Unit1ListCubit>().fetchInitial(''),
+                  onRefresh: () async {
+                    await context.cubit<Unit1ListCubit>().fetchInitial('');
+                    await context.cubit<UnitToday>().request();
+                  },
                   child:
                       InfiniteListViewWidget<Unit1ListCubit, UnitassemblyForm>(
                     childBuilder: (context, entry) {

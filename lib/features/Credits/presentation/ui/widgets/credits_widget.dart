@@ -50,7 +50,9 @@ class _CreditsWidgetState extends State<CreditsWidget> {
       setState(() {
         scannedMachines.add(barcodeScanRes);
       });
-      context.bloc<CreateCreditsCubit>().request(barcodeScanRes);
+      if (context.mounted) {
+        context.bloc<CreateCreditsCubit>().request(barcodeScanRes);
+      }
     }
   }
 
@@ -110,9 +112,11 @@ class _CreditsWidgetState extends State<CreditsWidget> {
                             return AppDialog.showSuccessDialog(context,
                                     content: data, onTapDismiss: context.pop)
                                 .then((_) {
-                              context
-                                  .cubit<CreditsListCubit>()
-                                  .fetchInitial('');
+                              if (context.mounted) {
+                                context
+                                    .cubit<CreditsListCubit>()
+                                    .fetchInitial('');
+                              }
                             });
                           },
                           failure: (failure) {
@@ -152,7 +156,6 @@ class _CreditsWidgetState extends State<CreditsWidget> {
                                       onTapDismiss: context.pop)
                                   .then(
                                 (_) {
-                            
                                   if (context.mounted) {
                                     context.pop(true);
                                     context
@@ -198,7 +201,7 @@ class _CreditsWidgetState extends State<CreditsWidget> {
               ],
             ),
             const SizedBox(height: 16),
-             BlocBuilder<CreditsToday, NetworkRequestState<int>>(
+            BlocBuilder<CreditsToday, NetworkRequestState<int>>(
               builder: (context, state) {
                 return Container(
                   width: double.infinity,
@@ -207,7 +210,7 @@ class _CreditsWidgetState extends State<CreditsWidget> {
                     color: Colors.grey[200],
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity( 0.3),
+                        color: Colors.grey.withOpacity(0.3),
                         spreadRadius: 2,
                         blurRadius: 8,
                         offset: const Offset(2, 4),
@@ -231,8 +234,6 @@ class _CreditsWidgetState extends State<CreditsWidget> {
                             ),
                           ),
                           const SizedBox(width: 4),
-
-                      
                           state.when(
                             initial: () => const Text(
                               '...',
@@ -324,8 +325,9 @@ class CreditsWidgetCard extends StatelessWidget {
           .push(context, extra: Pair(form.name ?? '', form.docstatus ?? 0))
           .then(
         (value) {
-       
-          context.read<CreditsListCubit>().fetchInitial('');
+          if (context.mounted) {
+            context.read<CreditsListCubit>().fetchInitial('');
+          }
         },
       ),
       // CreditsScreen.buildPage(context, form.name ?? '', form.docstatus ?? 0),

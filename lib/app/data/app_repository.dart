@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:tgbc_app/app/data/app_version.dart';
 import 'package:tgbc_app/core/core.dart';
 import 'package:dartz/dartz.dart';
@@ -25,8 +27,8 @@ class AppRepository extends BaseApiRepository {
       }
       final serverVersion = data['app_version'];
       final appVersionStr = await appVersion.getAppVersion();
-      print("APPVERSION:$appVersionStr");
-      print("SERVER VERSION:$serverVersion");
+      log("APPVERSION:$appVersionStr");
+      log("SERVER VERSION:$serverVersion");
 
       bool updateRequired = isUpdateRequired(appVersionStr, serverVersion);
 

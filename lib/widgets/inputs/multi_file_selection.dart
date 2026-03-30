@@ -21,7 +21,7 @@ class MultiFileSelectionWidget extends StatefulWidget {
     this.focusNode,
     this.initialValue = const [],
     this.icon,
-    required this.borderColor, 
+    required this.borderColor,
     required this.removeFile,
     required this.initialFiles,
   });
@@ -51,8 +51,12 @@ class _MultiFileSelectionWidgetState extends State<MultiFileSelectionWidget>
   @override
   void initState() {
     super.initState();
-    _selectedImages..addAll(widget.initialFiles)..toSet()..toList();
+    _selectedImages
+      ..addAll(widget.initialFiles)
+      ..toSet()
+      ..toList();
   }
+
   @override
   Widget build(BuildContext context) {
     return SpacedColumn(
@@ -90,13 +94,13 @@ class _MultiFileSelectionWidgetState extends State<MultiFileSelectionWidget>
               alignment: Alignment.center,
               children: [
                 IconButton(
-                  onPressed: widget.readOnly 
-                    ? null : () async => await _capture(),
+                  onPressed:
+                      widget.readOnly ? null : () async => await _capture(),
                   icon: Icon(
                     Icons.add_a_photo,
                     size: 24,
-                    color: widget.readOnly 
-                      ? AppColors.grey : widget.borderColor,
+                    color:
+                        widget.readOnly ? AppColors.grey : widget.borderColor,
                   ),
                 ),
                 if (widget.initialValue.isNotEmpty ||
@@ -108,12 +112,12 @@ class _MultiFileSelectionWidgetState extends State<MultiFileSelectionWidget>
                         backgroundColor: AppColors.himlayaPeeks,
                       ),
                       onPressed: _showImageDialog,
-                      child: Text('VIEW', 
+                      child: Text(
+                        'VIEW',
                         style: context.textTheme.labelLarge?.copyWith(
-                          color: AppColors.vibrantBlue,
-                          fontWeight: FontWeight.bold,
-                          decorationStyle: TextDecorationStyle.dashed
-                        ),
+                            color: AppColors.vibrantBlue,
+                            fontWeight: FontWeight.bold,
+                            decorationStyle: TextDecorationStyle.dashed),
                       ),
                     ),
                   ),
@@ -125,7 +129,7 @@ class _MultiFileSelectionWidgetState extends State<MultiFileSelectionWidget>
       ],
     );
   }
-  
+
   void _showImageDialog() {
     showDialog(
       context: context,
@@ -135,8 +139,8 @@ class _MultiFileSelectionWidgetState extends State<MultiFileSelectionWidget>
           surfaceTintColor: AppColors.white,
           title: const Text("Invoice Images"),
           content: _InvoiceImagesListView(
-            files: _selectedImages, 
-            urls: widget.initialValue, 
+            files: _selectedImages,
+            urls: widget.initialValue,
             removeFile: (index) {
               setState(() {
                 _selectedImages.removeAt(index);
@@ -150,7 +154,10 @@ class _MultiFileSelectionWidgetState extends State<MultiFileSelectionWidget>
   }
 
   Future<void> _capture() async {
-    final index = [..._selectedImages, ...{widget.initialValue}].length;
+    final index = [
+      ..._selectedImages,
+      ...{widget.initialValue}
+    ].length;
     final capturedFile = await captureImage();
     if (capturedFile != null) {
       final directoryPath = capturedFile.parent.path;
@@ -166,11 +173,10 @@ class _MultiFileSelectionWidgetState extends State<MultiFileSelectionWidget>
   }
 }
 
-
 class _InvoiceImagesListView extends StatefulWidget {
   const _InvoiceImagesListView({
-    required this.files, 
-    required this.urls, 
+    required this.files,
+    required this.urls,
     required this.removeFile,
   });
 
@@ -190,18 +196,17 @@ class __InvoiceImagesListViewState extends State<_InvoiceImagesListView> {
     super.initState();
     images.addAll([...widget.files, ...widget.urls]);
   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: images.map((image) {
           final imageName = image is File
-            ? image.path.split('/').last
-            : image.toString().split('/').last;
-          final indx = image is File 
-            ? widget.files.indexOf(image) 
-            : 0;
-            
+              ? image.path.split('/').last
+              : image.toString().split('/').last;
+          final indx = image is File ? widget.files.indexOf(image) : 0;
+
           return Container(
             padding: const EdgeInsets.all(0),
             height: 45,
@@ -238,8 +243,8 @@ class __InvoiceImagesListViewState extends State<_InvoiceImagesListView> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: image is File
-                    ? _buildImage(image)
-                    : _buildNetworkImage(image),
+                      ? _buildImage(image)
+                      : _buildNetworkImage(image),
                 ),
               ),
               title: Text(
@@ -251,18 +256,19 @@ class __InvoiceImagesListViewState extends State<_InvoiceImagesListView> {
                 ),
                 maxLines: 1,
               ),
-              trailing: image is File 
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        images.remove(image);
-                      });
-                      widget.removeFile(indx);
-                      if(images.isEmpty) context.exit();
-                    },
-                    icon: const Icon(Icons.delete_outline, color: AppColors.red),
-                  )
-                : null,
+              trailing: image is File
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          images.remove(image);
+                        });
+                        widget.removeFile(indx);
+                        if (images.isEmpty) context.exit();
+                      },
+                      icon: const Icon(Icons.delete_outline,
+                          color: AppColors.red),
+                    )
+                  : null,
             ),
           );
         }).toList(),
@@ -271,8 +277,10 @@ class __InvoiceImagesListViewState extends State<_InvoiceImagesListView> {
   }
 
   Image _buildNetworkImage(image) {
-    return Image.network(Urls.filepath(image.toString()), width: 50, height: 50, fit: BoxFit.cover);
+    return Image.network(Urls.filepath(image.toString()),
+        width: 50, height: 50, fit: BoxFit.cover);
   }
 
-  Image _buildImage(File image) => Image.file(image, width: 50, height: 50, fit: BoxFit.cover);
+  Image _buildImage(File image) =>
+      Image.file(image, width: 50, height: 50, fit: BoxFit.cover);
 }

@@ -50,7 +50,9 @@ class _Unit2WidgetState extends State<Unit2Widget> {
       setState(() {
         scannedMachines.add(barcodeScanRes);
       });
-      context.bloc<CreateUnit2Cubit>().request(barcodeScanRes);
+      if (context.mounted) {
+        context.bloc<CreateUnit2Cubit>().request(barcodeScanRes);
+      }
     }
   }
 
@@ -109,7 +111,9 @@ class _Unit2WidgetState extends State<Unit2Widget> {
                         return AppDialog.showSuccessDialog(context,
                                 content: data, onTapDismiss: context.pop)
                             .then((_) {
-                          context.cubit<Unit2ListCubit>().fetchInitial('');
+                          if (context.mounted) {
+                            context.cubit<Unit2ListCubit>().fetchInitial('');
+                          }
                         });
                       },
                       failure: (failure) {
@@ -132,8 +136,9 @@ class _Unit2WidgetState extends State<Unit2Widget> {
                           ),
                         ).then(
                           (value) {
-                   
-                            context.cubit<Unit2ListCubit>().fetchInitial('');
+                            if (context.mounted) {
+                              context.cubit<Unit2ListCubit>().fetchInitial('');
+                            }
                           },
                         );
                       },
@@ -169,7 +174,7 @@ class _Unit2WidgetState extends State<Unit2Widget> {
                     color: Colors.grey[200],
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity( 0.3),
+                        color: Colors.grey.withOpacity(0.3),
                         spreadRadius: 2,
                         blurRadius: 8,
                         offset: const Offset(2, 4),
@@ -193,8 +198,6 @@ class _Unit2WidgetState extends State<Unit2Widget> {
                             ),
                           ),
                           const SizedBox(width: 4),
-
-                        
                           state.when(
                             initial: () => const Text(
                               '...',
@@ -247,10 +250,11 @@ class _Unit2WidgetState extends State<Unit2Widget> {
             Expanded(
               child: Center(
                 child: RefreshIndicator(
-                  onRefresh: () =>
-                      context.cubit<Unit2ListCubit>().fetchInitial(''),
-                  child:
-                      InfiniteListViewWidget<Unit2ListCubit, Unit2assemblyForm>(
+                  onRefresh: () async {
+                    await context.cubit<Unit2ListCubit>().fetchInitial('');
+                    await context.cubit<Unit2Today>().request();
+                  },
+                  child: InfiniteListViewWidget<Unit2ListCubit, Unit2assemblyForm>(
                     childBuilder: (context, entry) {
                       return Unit2WidgetCard(form: entry);
                     },
@@ -307,8 +311,7 @@ class Unit2WidgetCard extends StatelessWidget {
                         color: Colors.black),
                   ),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.orange, width: 1.5),
                       borderRadius: BorderRadius.circular(12),
@@ -330,15 +333,12 @@ class Unit2WidgetCard extends StatelessWidget {
                 style: const TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 6),
-              Text(form.workorder.valueOrEmpty,
-                  style: const TextStyle(fontWeight: FontWeight.w500)),
+              Text(form.workorder.valueOrEmpty, style: const TextStyle(fontWeight: FontWeight.w500)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(form.productionplan.valueOrEmpty,
-                      style: const TextStyle(fontWeight: FontWeight.w500)),
-                  Text(form.bom.valueOrEmpty,
-                      style: const TextStyle(fontWeight: FontWeight.w500)),
+                  Text(form.productionplan.valueOrEmpty, style: const TextStyle(fontWeight: FontWeight.w500)),
+                  Text(form.bom.valueOrEmpty, style: const TextStyle(fontWeight: FontWeight.w500)),
                 ],
               ),
             ],

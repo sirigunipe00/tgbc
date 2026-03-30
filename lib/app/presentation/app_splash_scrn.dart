@@ -8,7 +8,7 @@ class AppSplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: null,
-      body: Center(child: Image.asset(AppIcons.cooltechlogo.path)),
+      body: Center(child: Image.asset(AppIcons.tgbcappicon.path)),
     );
   }
 }

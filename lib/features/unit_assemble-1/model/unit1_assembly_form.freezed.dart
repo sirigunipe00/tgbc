@@ -40,7 +40,7 @@ mixin _$UnitassemblyForm {
       fromJson: toNull,
       toJson: toNull)
   File? get attachment => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_photo_mandotary', defaultValue: 0)
+  @JsonKey(name: 'is_photo_mandatory')
   int? get isPhotoMandatory => throw _privateConstructorUsedError;
   @JsonKey(name: 'item')
   String? get item => throw _privateConstructorUsedError;
@@ -91,8 +91,7 @@ abstract class $UnitassemblyFormCopyWith<$Res> {
           fromJson: toNull,
           toJson: toNull)
       File? attachment,
-      @JsonKey(name: 'is_photo_mandotary', defaultValue: 0)
-      int? isPhotoMandatory,
+      @JsonKey(name: 'is_photo_mandatory') int? isPhotoMandatory,
       @JsonKey(name: 'item') String? item,
       @JsonKey(name: 'uom') String? uom,
       @JsonKey(name: 'production_plan') String? productionplan,
@@ -248,8 +247,7 @@ abstract class _$$UnitassemblyFormImplCopyWith<$Res>
           fromJson: toNull,
           toJson: toNull)
       File? attachment,
-      @JsonKey(name: 'is_photo_mandotary', defaultValue: 0)
-      int? isPhotoMandatory,
+      @JsonKey(name: 'is_photo_mandatory') int? isPhotoMandatory,
       @JsonKey(name: 'item') String? item,
       @JsonKey(name: 'uom') String? uom,
       @JsonKey(name: 'production_plan') String? productionplan,
@@ -399,8 +397,7 @@ class _$UnitassemblyFormImpl implements _UnitassemblyForm {
           fromJson: toNull,
           toJson: toNull)
       this.attachment,
-      @JsonKey(name: 'is_photo_mandotary', defaultValue: 0)
-      this.isPhotoMandatory,
+      @JsonKey(name: 'is_photo_mandatory') this.isPhotoMandatory,
       @JsonKey(name: 'item') this.item,
       @JsonKey(name: 'uom') this.uom,
       @JsonKey(name: 'production_plan') this.productionplan,
@@ -447,7 +444,7 @@ class _$UnitassemblyFormImpl implements _UnitassemblyForm {
       toJson: toNull)
   final File? attachment;
   @override
-  @JsonKey(name: 'is_photo_mandotary', defaultValue: 0)
+  @JsonKey(name: 'is_photo_mandatory')
   final int? isPhotoMandatory;
   @override
   @JsonKey(name: 'item')
@@ -589,8 +586,7 @@ abstract class _UnitassemblyForm implements UnitassemblyForm {
           fromJson: toNull,
           toJson: toNull)
       final File? attachment,
-      @JsonKey(name: 'is_photo_mandotary', defaultValue: 0)
-      final int? isPhotoMandatory,
+      @JsonKey(name: 'is_photo_mandatory') final int? isPhotoMandatory,
       @JsonKey(name: 'item') final String? item,
       @JsonKey(name: 'uom') final String? uom,
       @JsonKey(name: 'production_plan') final String? productionplan,
@@ -636,7 +632,7 @@ abstract class _UnitassemblyForm implements UnitassemblyForm {
       toJson: toNull)
   File? get attachment;
   @override
-  @JsonKey(name: 'is_photo_mandotary', defaultValue: 0)
+  @JsonKey(name: 'is_photo_mandatory')
   int? get isPhotoMandatory;
   @override
   @JsonKey(name: 'item')

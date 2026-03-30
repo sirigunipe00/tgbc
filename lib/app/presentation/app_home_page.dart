@@ -86,7 +86,6 @@ class AppHomePage extends StatelessWidget {
                   state.maybeWhen(
                     orElse: () {},
                     success: (data) {
-                    
                       if (data) {
                         // showDialog(
                         //     context: context,
@@ -189,8 +188,11 @@ class AppHomePage extends StatelessWidget {
                         children: [
                           Expanded(
                             child: AppFeatureWidget(
-                              icon: AppIcons.pufEntry.toWidget(height: 120, width: 140, fit: BoxFit.contain),
-                              title: Text('PUF', style: AppTextStyles.featureLabelStyle(context)),
+                              icon: AppIcons.pufEntry.toWidget(
+                                  height: 120, width: 140, fit: BoxFit.contain),
+                              title: Text('PUF',
+                                  style:
+                                      AppTextStyles.featureLabelStyle(context)),
                               featureColor: const Color(0xFF67D4CF),
                               onTap: () => AppRoute.puf.push(context),
                             ),
@@ -200,8 +202,12 @@ class AppHomePage extends StatelessWidget {
                           ),
                           Expanded(
                             child: AppFeatureWidget(
-                              icon: AppIcons.assembly2.toWidget(height: 120, width: 140, fit: BoxFit.contain),
-                              title: FittedBox(child: Text('Unit Assembly-1', style: AppTextStyles.featureLabelStyle(context))),
+                              icon: AppIcons.assembly2.toWidget(
+                                  height: 120, width: 140, fit: BoxFit.contain),
+                              title: FittedBox(
+                                  child: Text('Unit Assembly-1',
+                                      style: AppTextStyles.featureLabelStyle(
+                                          context))),
                               featureColor: const Color(0xFF67B7D4),
                               onTap: () => AppRoute.unitAssemble.push(context),
                             ),
@@ -234,8 +240,8 @@ class AppHomePage extends StatelessWidget {
                                   height: 120, width: 140, fit: BoxFit.contain),
                               title: FittedBox(
                                 child: Text('Unit Assembly-2',
-                                    style:
-                                        AppTextStyles.featureLabelStyle(context)),
+                                    style: AppTextStyles.featureLabelStyle(
+                                        context)),
                               ),
                               featureColor: const Color(0xFFD2BCFF),
                               onTap: () => AppRoute.unitAssemble2.push(context),
@@ -245,25 +251,26 @@ class AppHomePage extends StatelessWidget {
                             width: 10,
                           ),
                           Expanded(
-                           child:  AppFeatureWidget(
-                        icon: AppIcons.dashboard.toWidget(
-                            height: 120, width: 100, fit: BoxFit.contain),
-                        title: FittedBox(
-                          child: Text('Dashboard',
-                              style: AppTextStyles.featureLabelStyle(context)),
-                        ),
-                        featureColor: const Color(0xFFFFA95F),
-                        onTap: () => AppRoute.dashboards.push(context),
-                      ),
-                          //   child: AppFeatureWidget(
-                          //     icon: AppIcons.credits.toWidget(
-                          //         height: 120, width: 140, fit: BoxFit.contain),
-                          //     title: Text('Credits',
-                          //         style:
-                          //             AppTextStyles.featureLabelStyle(context)),
-                          //     featureColor: const Color(0xFF87A2FF),
-                          //     onTap: () => AppRoute.credits.push(context),
-                          //   ),
+                            child: AppFeatureWidget(
+                              icon: AppIcons.dashboard.toWidget(
+                                  height: 120, width: 100, fit: BoxFit.contain),
+                              title: FittedBox(
+                                child: Text('Dashboard',
+                                    style: AppTextStyles.featureLabelStyle(
+                                        context)),
+                              ),
+                              featureColor: const Color(0xFFFFA95F),
+                              onTap: () => AppRoute.dashboards.push(context),
+                            ),
+                            //   child: AppFeatureWidget(
+                            //     icon: AppIcons.credits.toWidget(
+                            //         height: 120, width: 140, fit: BoxFit.contain),
+                            //     title: Text('Credits',
+                            //         style:
+                            //             AppTextStyles.featureLabelStyle(context)),
+                            //     featureColor: const Color(0xFF87A2FF),
+                            //     onTap: () => AppRoute.credits.push(context),
+                            //   ),
                           ),
                         ],
                       ),
@@ -343,10 +350,10 @@ class _ImageSliderState extends State<ImageSlider> {
       'name': 'Credits',
       'color': const Color(0xFF87A2FF), // Pink
     },
-     {
+    {
       'path': 'assets/logo/dash.png',
       'name': 'DashBoard',
-      'color': const Color(0xFFFFA95F), 
+      'color': const Color(0xFFFFA95F),
     },
   ];
 

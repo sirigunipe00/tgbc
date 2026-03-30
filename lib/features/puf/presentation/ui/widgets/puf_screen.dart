@@ -16,30 +16,32 @@ class PufScreen extends StatefulWidget {
   final int docst;
   const PufScreen({super.key, required this.item, required this.docst});
 
-
-    static void buildPage(BuildContext context, String itemm, int docsta) async {
+  static void buildPage(BuildContext context, String itemm, int docsta) async {
     Navigator.of(context).push<bool>(MaterialPageRoute(
       builder: (context) {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-                create: (context) =>
-                    PufBlocProvider.get().fetchItemLines()..request(itemm),
-              ),
-              BlocProvider(
-                create: (context) => PufBlocProvider.get().scanningValidation(),
-              ),
-              BlocProvider(
-                create: (context) => PufBlocProvider.get().pufSubmission(),
-              ),
+              create: (context) =>
+                  PufBlocProvider.get().fetchItemLines()..request(itemm),
+            ),
+            BlocProvider(
+              create: (context) => PufBlocProvider.get().scanningValidation(),
+            ),
+            BlocProvider(
+              create: (context) => PufBlocProvider.get().pufSubmission(),
+            ),
           ],
           child: PufScreen(item: itemm, docst: docsta),
         );
       },
-    )).then((value) {
-    context.cubit<PufListCubit>().fetchInitial('');
-
-    },);
+    )).then(
+      (value) {
+        if (context.mounted) {
+          context.cubit<PufListCubit>().fetchInitial('');
+        }
+      },
+    );
   }
 
   @override
@@ -108,9 +110,8 @@ class _PufScreenState extends State<PufScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (lineItems.isEmpty) ...[
-                   Expanded(
-                    child: BlocListener<SubmitPufCubit,
-                        SubmitPufCubitState>(
+                  Expanded(
+                    child: BlocListener<SubmitPufCubit, SubmitPufCubitState>(
                       listener: (context, state) {
                         state.maybeWhen(
                             orElse: () => false,
@@ -120,8 +121,9 @@ class _PufScreenState extends State<PufScreen> {
                               return AppDialog.showSuccessDialog(context,
                                       content: data, onTapDismiss: context.pop)
                                   .then((_) {
-                                print('Requesting credits for docstatus: ${widget.docst}');
-                                context.pop(true);
+                                if (context.mounted) {
+                                  context.pop(true);
+                                }
                               });
                             });
                       },

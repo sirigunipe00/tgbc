@@ -168,8 +168,7 @@ class _Unit1DashBoardState extends State<Unit1DashBoard> {
                         isLoading: isLoading,
                         color: const Color(0xFFFFA95F),
                         title: 'PUF',
-                        lastUpdatedTime:
-                            'At ${DateFormat('h:mm a').format(DateTime.now())}',
+                        lastUpdatedTime: 'At ${DateFormat('h:mm a').format(DateTime.now())}',
                         monthCount: monthCount.toString(),
                         todayCount: todayCount.toString(),
                         yearCount: yearCount.toString(),

@@ -43,7 +43,9 @@ class CreditsScreen extends StatefulWidget {
       },
     )).then(
       (value) {
-        context.cubit<CreditsListCubit>().fetchInitial('');
+        if (context.mounted) {
+          context.cubit<CreditsListCubit>().fetchInitial('');
+        }
       },
     );
   }
@@ -121,64 +123,67 @@ class _CreditsScreenState extends State<CreditsScreen> {
                   ),
                 ] else ...[
                   // BlocListener<SubmitCreditsCubit, SubmitCreditsCubitState>(
-                    // listener: (context, st) {
-                    //   st.maybeWhen(
-                    //     orElse: () => false,
-                    //     failure: (failure) =>
-                    //         showErrorDialog(context, failure.error),
-                    //     success: (data) => showSuccessDialog(context, data),
-                    //   );
-                    // },
-                    // child: 
-                    
-                    Expanded(
-                      child: ListView.separated(
-                        separatorBuilder: (_, __) => const SizedBox(height: 6.0),
-                        padding: const EdgeInsets.all(8.0),
-                        itemCount: lineItems.length,
-                        itemBuilder: (ctxt, index) {
-                          final component = lineItems[index];
-                          return BlocProvider(
-                            create: (_) => Unit2BlocProvider.get().unit2Validation(),
-                            child: CreditsCompScanningWidget(
-                              component: component,
-                              docName: widget.item,
-                              onAttachment: (file) {
+                  // listener: (context, st) {
+                  //   st.maybeWhen(
+                  //     orElse: () => false,
+                  //     failure: (failure) =>
+                  //         showErrorDialog(context, failure.error),
+                  //     success: (data) => showSuccessDialog(context, data),
+                  //   );
+                  // },
+                  // child:
+
+                  Expanded(
+                    child: ListView.separated(
+                      separatorBuilder: (_, __) => const SizedBox(height: 6.0),
+                      padding: const EdgeInsets.all(8.0),
+                      itemCount: lineItems.length,
+                      itemBuilder: (ctxt, index) {
+                        final component = lineItems[index];
+                        return BlocProvider(
+                          create: (_) =>
+                              Unit2BlocProvider.get().unit2Validation(),
+                          child: CreditsCompScanningWidget(
+                            component: component,
+                            docName: widget.item,
+                            onAttachment: (file) {
+                              setState(() {
+                                final fileAttachment = file;
+                                final line = component.copyWith(
+                                    attachment: fileAttachment);
                                 setState(() {
-                                  final fileAttachment = file;
-                                  final line = component.copyWith(
-                                      attachment: fileAttachment);
-                                  setState(() {
-                                    lineItems
-                                      ..removeAt(index)
-                                      ..insert(index, line);
-                                  });
+                                  lineItems
+                                    ..removeAt(index)
+                                    ..insert(index, line);
                                 });
-                              },
-                              onScan: (scanId) {
-                                if (scanId.isNotEmpty) {
-                                  final line = component.copyWith(scanVal: scanId);
-                                  setState(() {
-                                    lineItems
-                                      ..removeAt(index)
-                                      ..insert(index, line);
-                                  });
-                                  completedLines.add(line);
-                                }
-                                if (completedLines.length == lineItems.length) {
-                                  // context
-                                  //     .bloc<SubmitCreditsCubit>()
-                                  //     .request(widget.item);
-                                }
-                              },
-                            ),
-                          );
-                        },
-                      ),
+                              });
+                            },
+                            onScan: (scanId) {
+                              if (scanId.isNotEmpty) {
+                                final line =
+                                    component.copyWith(scanVal: scanId);
+                                setState(() {
+                                  lineItems
+                                    ..removeAt(index)
+                                    ..insert(index, line);
+                                });
+                                completedLines.add(line);
+                              }
+                              if (completedLines.length == lineItems.length) {
+                                // context
+                                //     .bloc<SubmitCreditsCubit>()
+                                //     .request(widget.item);
+                              }
+                            },
+                          ),
+                        );
+                      },
                     ),
+                  ),
                   // ),
                 ],
-                if (widget.docst != 1 && completedLines.length == lineItems.length) ...[
+                if (widget.docst != 1 &&
+                    completedLines.length == lineItems.length) ...[
                   BlocConsumer<SubmitCreditsCubit, SubmitCreditsCubitState>(
                     listener: (context, state) {
                       state.maybeWhen(
@@ -194,8 +199,7 @@ class _CreditsScreenState extends State<CreditsScreen> {
                             shouldAskForConfirmation.value = false;
                             return AppDialog.showSuccessDialog(context,
                                     content: data, onTapDismiss: context.pop)
-                                .then((_) { 
-                            
+                                .then((_) {
                               context.pop(true);
                             });
                           });

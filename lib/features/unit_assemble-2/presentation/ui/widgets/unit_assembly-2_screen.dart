@@ -38,7 +38,9 @@ class Unit2AssemblyScreen extends StatefulWidget {
       },
     )).then(
       (value) {
-        context.cubit<Unit2ListCubit>().fetchInitial('');
+        if (context.mounted) {
+          context.cubit<Unit2ListCubit>().fetchInitial('');
+        }
       },
     );
   }
@@ -121,8 +123,9 @@ class _Unit2AssemblyScreenState extends State<Unit2AssemblyScreen> {
                               return AppDialog.showSuccessDialog(context,
                                       content: data, onTapDismiss: context.pop)
                                   .then((_) {
-                             
-                                context.pop(true);
+                                if (context.mounted) {
+                                  context.pop(true);
+                                }
                               });
                             });
                       },

@@ -31,14 +31,29 @@ class _UnitCompScanningWidgetState extends State<UnitCompScanningWidget> {
   String? scanVal;
   bool iscomplete = false;
   bool hasScanValue = false;
+  bool hasAttachment = false;
   XFile? selectedFile;
+
+  bool get _attachmentPresent {
+    final ds = widget.component.docstatus ?? 0;
+    if (ds == 1) {
+      return (widget.component.photo ?? '').trim().isNotEmpty;
+    }
+    return hasAttachment || widget.component.attachment != null;
+  }
 
   @override
   void initState() {
     scanVal = widget.component.scanVal ?? '';
     final hasscanValue = widget.component.scanVal ?? '';
     hasScanValue = hasscanValue.trim().isNotEmpty;
-    iscomplete = hasScanValue;
+    hasAttachment = widget.component.attachment != null ||
+        (widget.component.photo ?? '').trim().isNotEmpty;
+    if ((widget.component.isPhotoMandatory ?? 0) == 1) {
+      iscomplete = hasScanValue && _attachmentPresent;
+    } else {
+      iscomplete = hasScanValue;
+    }
     super.initState();
   }
 
@@ -57,14 +72,18 @@ class _UnitCompScanningWidgetState extends State<UnitCompScanningWidget> {
           success: (data) {
             setState(() {
               hasScanValue = true;
-              iscomplete = true;
+              if ((widget.component.isPhotoMandatory ?? 0) == 1) {
+                iscomplete = hasScanValue && _attachmentPresent;
+              } else {
+                iscomplete = hasScanValue;
+              }
             });
-            iscomplete = hasScanValue;
             widget.onScan(scanVal ?? '');
           },
         );
       },
       builder: (_, state) {
+        final bool isSubmitted = (widget.component.docstatus ?? 0) == 1;
         
         return ListTile(
           tileColor: iscomplete ? Colors.green[300] : Colors.white,
@@ -78,9 +97,7 @@ class _UnitCompScanningWidgetState extends State<UnitCompScanningWidget> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
           subtitle: Text(widget.component.itemName ?? ''),
-          trailing: iscomplete
-              ? null
-              : SizedBox(
+          trailing: SizedBox(
                   width: 120,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -89,47 +106,64 @@ class _UnitCompScanningWidgetState extends State<UnitCompScanningWidget> {
                         const LoadingIndicator()
                       ] else ...[
                         IconButton(
-                          onPressed: () async {
-                            final selectedFile = await ImagePicker()
-                                .pickImage(source: ImageSource.camera);
-                            if (selectedFile != null) {
-                              widget.onAttachment(File(selectedFile.path));
-                            }
-                          },
+                          onPressed: isSubmitted
+                              ? null
+                              : () async {
+                                  final selectedFile = await ImagePicker()
+                                      .pickImage(source: ImageSource.camera);
+                                  if (selectedFile != null) {
+                                    setState(() {
+                                      hasAttachment = true;
+                                      if ((widget.component.isPhotoMandatory ?? 0) == 1) {
+                                        iscomplete = hasScanValue && _attachmentPresent;
+                                      } else {
+                                        iscomplete = hasScanValue;
+                                      }
+                                    });
+                                    widget.onAttachment(File(selectedFile.path));
+                                  }
+                                },
                           icon: Icon(
                             Icons.attachment,
-                            color: widget.component.attachment != null
-                                ? Colors.blue
-                                : widget.component.isPhotoMandatory == 1
-                                    ? Colors.red
-                                    : Colors.grey,
+                            color: (widget.component.isPhotoMandatory == 1 && _attachmentPresent)
+                                ? Colors.green
+                                : (widget.component.attachment != null
+                                    ? Colors.blue
+                                    : widget.component.isPhotoMandatory == 1
+                                        ? Colors.red
+                                        : Colors.grey),
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.qr_code),
-                          onPressed: () async {
-                            final scanResult = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const SimpleBarcodeScannerPage(
-                                  scanType: ScanType.barcode,
-                                  appBarTitle: 'Scan Machine',
-                                  isShowFlashIcon: true,
-                                ),
-                              ),
-                            );
-                            final line = widget.component.copyWith(scanVal: scanResult);
+                          icon: Icon(
+                            Icons.qr_code,
+                            color: hasScanValue ? Colors.green : Colors.grey,
+                          ),
+                          onPressed: isSubmitted
+                              ? null
+                              : () async {
+                                  final scanResult = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SimpleBarcodeScannerPage(
+                                        scanType: ScanType.barcode,
+                                        appBarTitle: 'Scan Machine',
+                                        isShowFlashIcon: true,
+                                      ),
+                                    ),
+                                  );
 
-                            if (scanResult != null && scanResult != '-1') {
-                                scanVal = scanResult;
-                            }
-                            if (context.mounted) {
-                              context
-                                  .bloc<Unit1validationCubit>()
-                                  .request(Pair(widget.docName, line));
-                            }
-                          },
+                                  if (scanResult != null && scanResult != '-1') {
+                                    scanVal = scanResult;
+                                    final line = widget.component.copyWith(scanVal: scanResult);
+                                    if (context.mounted) {
+                                      context
+                                          .bloc<Unit1validationCubit>()
+                                          .request(Pair(widget.docName, line));
+                                    }
+                                  }
+                                },
                         ),
                       ],
                     ],

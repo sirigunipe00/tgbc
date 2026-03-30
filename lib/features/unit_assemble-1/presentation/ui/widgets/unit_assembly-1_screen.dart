@@ -38,7 +38,9 @@ class UnitAssemblyScreen extends StatefulWidget {
       },
     )).then(
       (value) {
-        context.cubit<Unit1ListCubit>().fetchInitial('');
+        if (context.mounted) {
+          context.cubit<Unit1ListCubit>().fetchInitial('');
+        }
       },
     );
   }
@@ -115,13 +117,14 @@ class _UnitAssemblyScreenState extends State<UnitAssemblyScreen> {
                       listener: (context, state) {
                         state.maybeWhen(
                             orElse: () => false,
-                            failure: (failure) => showErrorDialog(context, failure.error),
+                            failure: (failure) =>
+                                showErrorDialog(context, failure.error),
                             success: (data) {
                               return AppDialog.showSuccessDialog(context,
                                       content: data, onTapDismiss: context.pop)
                                   .then((_) {
                                 if (!context.mounted) return;
-                               
+
                                 context.pop(true);
                               });
                             });
@@ -154,17 +157,72 @@ class _UnitAssemblyScreenState extends State<UnitAssemblyScreen> {
                             child: UnitCompScanningWidget(
                               component: component,
                               docName: widget.item,
-                              onAttachment: (file) {
+                              onAttachment: (file) async {
+                                // Update local model with attachment
+                                final fileAttachment = file;
+                                final line = component.copyWith(
+                                    attachment: fileAttachment);
                                 setState(() {
-                                  final fileAttachment = file;
-                                  final line = component.copyWith(
-                                      attachment: fileAttachment);
-                                  setState(() {
-                                    lineItems
-                                      ..removeAt(index)
-                                      ..insert(index, line);
-                                  });
+                                  lineItems
+                                    ..removeAt(index)
+                                    ..insert(index, line);
+                                  // Rebuild completedLines from current lineItems
+                                  completedLines = lineItems
+                                      .where((l) =>
+                                          l.scanVal != null &&
+                                          l.scanVal!.trim().isNotEmpty)
+                                      .toList();
                                 });
+
+                                // Call validation API to attach photo server-side
+                                try {
+                                  final validator =
+                                      BlocProvider.of<Unit1validationCubit>(
+                                          ctxt);
+                                  await validator
+                                      .request(Pair(widget.item, line));
+
+                                  // Check validator state for success/failure
+                                  final valState = validator.state;
+                                  bool validated = false;
+                                  valState.maybeWhen(
+                                    success: (data) => validated = true,
+                                    failure: (failure) {
+                                      showErrorDialog(context, failure.error);
+                                    },
+                                    orElse: () {},
+                                  );
+
+                                  if (!validated) return;
+
+                                  // After successful validation, if all scanned, ensure mandatory photos present and submit
+                                  if (completedLines.length ==
+                                      lineItems.length) {
+                                    final missingPhotos = lineItems
+                                        .where((l) =>
+                                            l.isPhotoMandatory == 1 &&
+                                            l.attachment == null)
+                                        .toList();
+
+                                    if (missingPhotos.isNotEmpty) {
+                                      final names = missingPhotos
+                                          .map(
+                                              (e) => e.itemName ?? e.item ?? '')
+                                          .where((s) => s.isNotEmpty)
+                                          .join(', ');
+                                      showErrorDialog(context,
+                                          'Photo is mandatory for these items: $names. Please attach photos for mandatory items.');
+                                      return;
+                                    }
+                                    if (ctxt.mounted) {
+                                      context
+                                          .bloc<SubmitUnit1Cubit>()
+                                          .request(widget.item);
+                                    }
+                                  }
+                                } catch (e) {
+                                  showErrorDialog(context, e.toString());
+                                }
                               },
                               onScan: (scanId) {
                                 if (scanId.isNotEmpty) {
@@ -177,7 +235,24 @@ class _UnitAssemblyScreenState extends State<UnitAssemblyScreen> {
                                   });
                                   completedLines.add(line);
                                 }
+
                                 if (completedLines.length == lineItems.length) {
+                                  final missingPhotos = lineItems
+                                      .where((l) =>
+                                          l.isPhotoMandatory == 1 &&
+                                          l.attachment == null)
+                                      .toList();
+
+                                  if (missingPhotos.isNotEmpty) {
+                                    final names = missingPhotos
+                                        .map((e) => e.item ?? e.itemName ?? '')
+                                        .where((s) => s.isNotEmpty)
+                                        .join(', ');
+                                    showErrorDialog(context,
+                                        'Photo is mandatory for these items: $names. Please attach photos for mandatory items.');
+                                    return;
+                                  }
+
                                   context
                                       .bloc<SubmitUnit1Cubit>()
                                       .request(widget.item);

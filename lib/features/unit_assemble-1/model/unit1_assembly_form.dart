@@ -23,7 +23,7 @@ class UnitassemblyForm with _$UnitassemblyForm {
         includeToJson: false,
         fromJson: toNull,
         toJson: toNull) File? attachment,
-    @JsonKey(name: 'is_photo_mandotary', defaultValue: 0) int? isPhotoMandatory,
+    @JsonKey(name: 'is_photo_mandatory') int? isPhotoMandatory,
     @JsonKey(name: 'item') String? item,
     @JsonKey(name: 'uom') String? uom,
     @JsonKey(name: 'production_plan') String? productionplan,

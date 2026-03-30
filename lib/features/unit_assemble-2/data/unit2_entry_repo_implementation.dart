@@ -80,6 +80,8 @@ class Unit2RepoImpl extends BaseApiRepository implements Unit2Repo {
       },
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     );
+
+    
     $logger.devLog(requestConfig);
 
     final response = await get(requestConfig);
@@ -167,6 +169,9 @@ class Unit2RepoImpl extends BaseApiRepository implements Unit2Repo {
         "limit_page_length": "None"
       },
     );
+
+
+
 
     final response = await get(requestConfig);
     return response.process((r) {

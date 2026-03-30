@@ -52,7 +52,9 @@ class PufWidgetState extends State<PufWidget> {
       setState(() {
         scannedMachines.add(barcodeScanRes);
       });
-      context.bloc<CreatePufCubit>().request(barcodeScanRes);
+      if (context.mounted) {
+        context.bloc<CreatePufCubit>().request(barcodeScanRes);
+      }
     }
   }
 
@@ -112,7 +114,9 @@ class PufWidgetState extends State<PufWidget> {
                         return AppDialog.showSuccessDialog(context,
                                 content: data, onTapDismiss: context.pop)
                             .then((_) {
-                          context.cubit<PufListCubit>().fetchInitial('');
+                          if (context.mounted) {
+                            context.cubit<PufListCubit>().fetchInitial('');
+                          }
                         });
                       },
                       failure: (failure) {
@@ -135,7 +139,9 @@ class PufWidgetState extends State<PufWidget> {
                           ),
                         ).then(
                           (value) {
-                            context.cubit<PufListCubit>().fetchInitial('');
+                            if (context.mounted) {
+                              context.cubit<PufListCubit>().fetchInitial('');
+                            }
                           },
                         );
                       },
@@ -188,7 +194,7 @@ class PufWidgetState extends State<PufWidget> {
                     color: Colors.grey[200],
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity( 0.3),
+                        color: Colors.grey.withOpacity(0.3),
                         spreadRadius: 2,
                         blurRadius: 8,
                         offset: const Offset(2, 4),
@@ -212,8 +218,6 @@ class PufWidgetState extends State<PufWidget> {
                             ),
                           ),
                           const SizedBox(width: 4),
-
-                      
                           state.when(
                             initial: () => const Text(
                               '...',
@@ -239,7 +243,7 @@ class PufWidgetState extends State<PufWidget> {
                                 color: Colors.black,
                               ),
                             ),
-                            failure: (failure) => Text(
+                            failure: (failure) => const Text(
                               'NA',
                               style: TextStyle(
                                 fontSize: 20,
@@ -266,8 +270,10 @@ class PufWidgetState extends State<PufWidget> {
             Expanded(
               child: Center(
                 child: RefreshIndicator(
-                  onRefresh: () =>
-                      context.cubit<PufListCubit>().fetchInitial(''),
+                  onRefresh: () async {
+                    await context.cubit<PufListCubit>().fetchInitial('');
+                    await context.cubit<PufToday>().request();
+                  },
                   child: InfiniteListViewWidget<PufListCubit, PufForm>(
                     childBuilder: (context, entry) {
                       return PufWidgetCard(form: entry);

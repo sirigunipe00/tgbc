@@ -1,3 +1,7 @@
+
+
+import 'dart:developer';
+
 import 'package:tgbc_app/core/core.dart';
 import 'package:tgbc_app/features/dashboard/data/dashboard_repo.dart';
 import 'package:tgbc_app/features/dashboard/data/model/summarymodel.dart';
@@ -177,6 +181,8 @@ class DashboardRepoimpl extends BaseApiRepository implements DashboardRepo {
         "limit_page_length": "None",
       },
     );
+
+    log('body..........:$requestConfig');
 
     final response = await get(requestConfig);
     return response.process((r) {

@@ -175,7 +175,6 @@ class _VrtFormWidgetState extends State<VrtFormWidget> {
             inputFormatters: [
               UpperCaseTextFormatter(),
             ],
-            
             suffixIcon: const Icon(Icons.pin_outlined),
             onChanged: (vehicleNo) {
               // context
@@ -240,10 +239,12 @@ class _VrtFormWidgetState extends State<VrtFormWidget> {
       },
     ).then(
       (value) {
-  
-        context.cubit<CreateVrtCubit>()
-          ..onValueChanged(rejectreason: value)
-          ..save();
+        if (context.mounted) {
+          context.cubit<CreateVrtCubit>()
+            ..onValueChanged(rejectreason: value)
+            ..save();
+        }
+
         // context.cubit<CreateVrtCubit>().save();
       },
     );
