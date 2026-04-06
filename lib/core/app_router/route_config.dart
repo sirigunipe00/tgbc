@@ -25,11 +25,11 @@ import 'package:tgbc_app/features/gate_exit/presentation/bloc/create_gate_exit/c
 import 'package:tgbc_app/features/gate_exit/presentation/ui/create/new_gate_exit.dart';
 import 'package:tgbc_app/features/gate_exit/presentation/ui/gate_exit_list/gate_exit_list.dart';
 import 'package:tgbc_app/features/puf/presentation/bloc/bloc_provider.dart';
-import 'package:tgbc_app/features/puf/presentation/ui/widgets/puf%20_widget.dart';
+import 'package:tgbc_app/features/puf/presentation/ui/widgets/puf_widget.dart';
 import 'package:tgbc_app/features/unit_assemble-1/presentation/bloc/bloc_provider.dart';
-import 'package:tgbc_app/features/unit_assemble-1/presentation/ui/widgets/unit_assembly-1_widget.dart';
+import 'package:tgbc_app/features/unit_assemble-1/presentation/ui/widgets/unit_assembly_1_widget.dart';
 import 'package:tgbc_app/features/unit_assemble-2/presentation/bloc/bloc_provider.dart';
-import 'package:tgbc_app/features/unit_assemble-2/presentation/ui/widgets/unit_assembly-2_widget.dart';
+import 'package:tgbc_app/features/unit_assemble-2/presentation/ui/widgets/unit_assembly_2_widget.dart';
 import 'package:tgbc_app/widgets/dialogs/app_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

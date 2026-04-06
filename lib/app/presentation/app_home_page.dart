@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:tgbc_app/app/presentation/app_update_blocprovider.dart';
 import 'package:tgbc_app/app/widgets/app_feature_widget.dart';
 import 'package:tgbc_app/core/core.dart';
@@ -6,13 +8,36 @@ import 'package:tgbc_app/styles/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppHomePage extends StatelessWidget {
   const AppHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Make status bar white
+
+
+  Future<void> launchCredits() async {
+    final String base = Urls.baseUrl.replaceAll('/api', '');
+  final Uri url = Uri.parse('$base/app/credits-u1');
+
+  log('url.........$url');
+  
+  try {
+
+    bool launched = await launchUrl(
+      url, 
+      mode: LaunchMode.externalApplication,
+    );
+    
+    if (!launched) {
+      debugPrint('Could not launch $url');
+    }
+  } catch (e) {
+    debugPrint('Error launching URL: $e');
+
+  }
+}
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.white, // Set status bar color to white
       statusBarIconBrightness: Brightness.dark, // Dark icons for contrast
@@ -49,7 +74,7 @@ class AppHomePage extends StatelessWidget {
           //       borderRadius: BorderRadius.circular(30), // More rounded corners
           //       boxShadow: [
           //         BoxShadow(
-          //           color: Colors.black12.withOpacity(0.1), // Subtle shadow
+          //           color: Colors.black12.withValues(0.1), // Subtle shadow
           //           blurRadius: 6,
           //           offset: const Offset(0, 3),
           //         ),
@@ -272,6 +297,7 @@ class AppHomePage extends StatelessWidget {
                             //     onTap: () => AppRoute.credits.push(context),
                             //   ),
                           ),
+                          
                         ],
                       ),
                     ),
@@ -279,6 +305,21 @@ class AppHomePage extends StatelessWidget {
                     // const SizedBox(
                     //   height: 10,
                     // ),
+                   Padding(
+                     padding: const EdgeInsets.only(right: 210,
+                        left: 8,
+                        bottom: 5,),
+                     child: AppFeatureWidget(
+                                  icon: AppIcons.credits.toWidget(
+                                      height: 120, width: 140, fit: BoxFit.contain),
+                                  title: Text('Credits',
+                                      style:
+                                          AppTextStyles.featureLabelStyle(context)),
+                                  featureColor: const Color(0xFF87A2FF),
+                                  onTap: () => launchCredits()
+                                ),
+                   ),
+                      
 
                     // Padding(
                     //   padding: const EdgeInsets.only(
@@ -379,6 +420,7 @@ class _ImageSliderState extends State<ImageSlider> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -450,5 +492,7 @@ class _ImageSliderState extends State<ImageSlider> {
         },
       ),
     );
+    
   }
+   
 }

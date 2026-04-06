@@ -200,7 +200,11 @@ class _CreditsScreenState extends State<CreditsScreen> {
                             return AppDialog.showSuccessDialog(context,
                                     content: data, onTapDismiss: context.pop)
                                 .then((_) {
-                              context.pop(true);
+                                  if(context.mounted){
+                                    context.pop(true);
+
+                                  }
+                              
                             });
                           });
                     },

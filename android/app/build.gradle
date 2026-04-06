@@ -33,7 +33,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "in.easycloud.tgbc_app"
     compileSdk = 35
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "26.1.10909125"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

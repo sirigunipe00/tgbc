@@ -1,9 +1,9 @@
 import 'package:tgbc_app/core/core.dart';
 import 'package:tgbc_app/core/utils/context_ext.dart';
 import 'package:tgbc_app/features/puf/presentation/ui/widgets/puf_search_bar.dart';
-import 'package:tgbc_app/features/unit_assemble-2/model/unit2_assembly_form.dart';
-import 'package:tgbc_app/features/unit_assemble-2/presentation/bloc/bloc_provider.dart';
-import 'package:tgbc_app/features/unit_assemble-2/presentation/ui/widgets/unit_assembly-2_screen.dart';
+import 'package:tgbc_app/features/unit_assemble-1/model/unit1_assembly_form.dart';
+import 'package:tgbc_app/features/unit_assemble-1/presentation/bloc/bloc_provider.dart';
+import 'package:tgbc_app/features/unit_assemble-1/presentation/ui/widgets/unit_assembly_1_screen.dart';
 import 'package:tgbc_app/styles/app_colors.dart';
 import 'package:tgbc_app/widgets/buttons/app_btn.dart';
 import 'package:tgbc_app/widgets/dialogs/app_dialogs.dart';
@@ -14,21 +14,21 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
-class Unit2Widget extends StatefulWidget {
-  const Unit2Widget({super.key});
+class Unit1Widget extends StatefulWidget {
+  const Unit1Widget({super.key});
 
   @override
-  _Unit2WidgetState createState() => _Unit2WidgetState();
+  _Unit1WidgetState createState() => _Unit1WidgetState();
 }
 
-class _Unit2WidgetState extends State<Unit2Widget> {
+class _Unit1WidgetState extends State<Unit1Widget> {
   List<String> scannedMachines = [];
 
   // final player = AudioPlayer();
 
-  // Future<void> playScanSound() async {
-  //   await player.play(AssetSource('sounds/scanner.mp3'));
-  // }
+// Future<void> playScanSound() async {
+//   await player.play(AssetSource('sounds/scanner.mp3'));
+// }
 
   void onScan(BuildContext context) async {
     String? barcodeScanRes = await SimpleBarcodeScanner.scanBarcode(
@@ -46,12 +46,12 @@ class _Unit2WidgetState extends State<Unit2Widget> {
     );
 
     if (barcodeScanRes != null && barcodeScanRes != '-1') {
-      // await playScanSound();
+      //  await playScanSound();
       setState(() {
         scannedMachines.add(barcodeScanRes);
       });
       if (context.mounted) {
-        context.bloc<CreateUnit2Cubit>().request(barcodeScanRes);
+        context.bloc<CreateUnit1Cubit>().request(barcodeScanRes);
       }
     }
   }
@@ -60,13 +60,13 @@ class _Unit2WidgetState extends State<Unit2Widget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFD2BCFF),
+        backgroundColor: const Color(0xFF67B7D4),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: const Text(
-          'Unit Assembly - 2',
+          'Unit Assembly - 1',
           style: TextStyle(
               fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
@@ -74,8 +74,8 @@ class _Unit2WidgetState extends State<Unit2Widget> {
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: () {
-              context.cubit<Unit2ListCubit>().fetchInitial('');
-              context.cubit<Unit2Today>().request();
+              context.cubit<Unit1ListCubit>().fetchInitial('');
+              context.cubit<UnitToday>().request();
             },
           ),
         ],
@@ -93,17 +93,17 @@ class _Unit2WidgetState extends State<Unit2Widget> {
                     inputType: TextInputType.number,
                     hintText: 'Search',
                     onCancel: () {
-                      context.cubit<Unit2ListCubit>().fetchInitial('');
+                      context.cubit<Unit1ListCubit>().fetchInitial('');
                     },
                     onSearch: (q) {
-                      context.cubit<Unit2ListCubit>().fetchInitial(q);
+                      context.cubit<Unit1ListCubit>().fetchInitial(q);
                     },
                   ),
                 ),
                 const SizedBox(width: 8),
 
                 // Scan Icon Button
-                BlocListener<CreateUnit2Cubit, CreateUnit2CubitState>(
+                BlocListener<CreateUnit1Cubit, CreateUnit1CubitState>(
                   listener: (context, state) {
                     state.maybeWhen(
                       orElse: () => false,
@@ -112,7 +112,7 @@ class _Unit2WidgetState extends State<Unit2Widget> {
                                 content: data, onTapDismiss: context.pop)
                             .then((_) {
                           if (context.mounted) {
-                            context.cubit<Unit2ListCubit>().fetchInitial('');
+                            context.cubit<Unit1ListCubit>().fetchInitial('');
                           }
                         });
                       },
@@ -137,7 +137,7 @@ class _Unit2WidgetState extends State<Unit2Widget> {
                         ).then(
                           (value) {
                             if (context.mounted) {
-                              context.cubit<Unit2ListCubit>().fetchInitial('');
+                              context.cubit<Unit1ListCubit>().fetchInitial('');
                             }
                           },
                         );
@@ -165,7 +165,7 @@ class _Unit2WidgetState extends State<Unit2Widget> {
               ],
             ),
             const SizedBox(height: 16),
-            BlocBuilder<Unit2Today, Unit2State>(
+            BlocBuilder<UnitToday, UnitState>(
               builder: (context, state) {
                 return Container(
                   width: double.infinity,
@@ -174,7 +174,7 @@ class _Unit2WidgetState extends State<Unit2Widget> {
                     color: Colors.grey[200],
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
+                        color: Colors.grey.withValues(alpha : 0.3),
                         spreadRadius: 2,
                         blurRadius: 8,
                         offset: const Offset(2, 4),
@@ -251,16 +251,17 @@ class _Unit2WidgetState extends State<Unit2Widget> {
               child: Center(
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    await context.cubit<Unit2ListCubit>().fetchInitial('');
-                    await context.cubit<Unit2Today>().request();
+                    await context.cubit<Unit1ListCubit>().fetchInitial('');
+                    await context.cubit<UnitToday>().request();
                   },
-                  child: InfiniteListViewWidget<Unit2ListCubit, Unit2assemblyForm>(
+                  child:
+                      InfiniteListViewWidget<Unit1ListCubit, UnitassemblyForm>(
                     childBuilder: (context, entry) {
-                      return Unit2WidgetCard(form: entry);
+                      return Unit1WidgetCard(form: entry);
                     },
                     fetchInitial: () => fetchInitial(context),
                     fetchMore: () => fetchMore(context),
-                    emptyListText: 'No UnitAssembly-2 Found',
+                    emptyListText: 'No UnitAssembly-1 Found',
                   ),
                 ),
               ),
@@ -272,22 +273,22 @@ class _Unit2WidgetState extends State<Unit2Widget> {
   }
 
   void fetchInitial(BuildContext context) {
-    context.cubit<Unit2ListCubit>().fetchInitial('');
+    context.cubit<Unit1ListCubit>().fetchInitial('');
   }
 
   void fetchMore(BuildContext context) {
-    context.cubit<Unit2ListCubit>().fetchMore('');
+    context.cubit<Unit1ListCubit>().fetchMore('');
   }
 }
 
-class Unit2WidgetCard extends StatelessWidget {
-  final Unit2assemblyForm form;
-  const Unit2WidgetCard({super.key, required this.form});
+class Unit1WidgetCard extends StatelessWidget {
+  final UnitassemblyForm form;
+  const Unit1WidgetCard({super.key, required this.form});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Unit2AssemblyScreen.buildPage(
+      onTap: () => UnitAssemblyScreen.buildPage(
           context, form.name ?? '', form.docstatus ?? 0),
       child: Card(
         color: form.docstatus == 1 ? Colors.green[100] : AppColors.white,
@@ -311,7 +312,8 @@ class Unit2WidgetCard extends StatelessWidget {
                         color: Colors.black),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.orange, width: 1.5),
                       borderRadius: BorderRadius.circular(12),
@@ -333,12 +335,15 @@ class Unit2WidgetCard extends StatelessWidget {
                 style: const TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 6),
-              Text(form.workorder.valueOrEmpty, style: const TextStyle(fontWeight: FontWeight.w500)),
+              Text(form.workorder.valueOrEmpty,
+                  style: const TextStyle(fontWeight: FontWeight.w500)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(form.productionplan.valueOrEmpty, style: const TextStyle(fontWeight: FontWeight.w500)),
-                  Text(form.bom.valueOrEmpty, style: const TextStyle(fontWeight: FontWeight.w500)),
+                  Text(form.productionplan.valueOrEmpty,
+                      style: const TextStyle(fontWeight: FontWeight.w500)),
+                  Text(form.bom.valueOrEmpty,
+                      style: const TextStyle(fontWeight: FontWeight.w500)),
                 ],
               ),
             ],

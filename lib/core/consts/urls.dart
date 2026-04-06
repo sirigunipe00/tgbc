@@ -8,7 +8,7 @@ class Urls {
   factory Urls.cooltechUAT() =>
       const Urls('https://tgbcnextuat.easycloud.co.in/api');
   factory Urls.local() => const Urls('http://157.180.125.6:8000/api');
-  factory Urls.cooltechLive() => const Urls('https://rilcooltecherplive.easycloud.co.in/api');
+  factory Urls.cooltechLive() => const Urls('https://livetgbcerp.easycloud.co.in/api');
 
   //https://rilcooltecherp.easycloud.co.in/app/home
   const Urls(this.url);
