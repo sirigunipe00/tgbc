@@ -68,7 +68,13 @@ class Urls {
   static final getUnit2ItemLines = '$jsonWs/Unit Assembly 2 U1';
   static final getCreditsItemLines = '$jsonWs/Credits U1';
 
+  // static final summaryCount = '$cusWs/tgbc.api.get_credits_summary';
+
+
   static final summaryCount = '$cusWs/tgbc.api.get_credits_summary';
+  static final hourlyData = '$cusWs/tgbc.api.get_today_puf_vs_credits';
+  static final pufData = '$cusWs/tgbc.api.get_puf_counts_mtd_today_ytd';
+  static final creditsData = '$cusWs/tgbc.api.get_credits_counts_mtd_today_ytd';
 
   static filepath(String path) {
     return '${baseUrl.replaceAll('api', '')}/${path.replaceAll('/private', '').replaceAll("///", '/')}';

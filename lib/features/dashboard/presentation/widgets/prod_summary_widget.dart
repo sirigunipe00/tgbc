@@ -1,7 +1,8 @@
-import 'package:tgbc_app/features/dashboard/presentation/bloc/blocprovider.dart';
-import 'package:tgbc_app/features/dashboard/presentation/widgets/currency_formatter.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tgbc_app/features/dashboard/presentation/bloc/blocprovider.dart';
+import 'package:tgbc_app/features/dashboard/presentation/widgets/currency_formatter.dart';
 
 class ProdSummaryWidget extends StatelessWidget {
   const ProdSummaryWidget({super.key});

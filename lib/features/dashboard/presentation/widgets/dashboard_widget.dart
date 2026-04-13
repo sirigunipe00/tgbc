@@ -1,8 +1,12 @@
+
+
+
+import 'package:flutter/material.dart';
+
+import 'package:tgbc_app/features/dashboard/data/model/dashboard_data.dart';
 import 'package:tgbc_app/features/dashboard/presentation/widgets/containerx_widget.dart';
 import 'package:tgbc_app/styles/app_colors.dart';
 import 'package:tgbc_app/styles/app_text_styles.dart';
-import 'package:flutter/material.dart';
-import 'package:tgbc_app/features/dashboard/data/model/dashboard_data.dart';
 
 class DashBoardWidget extends StatelessWidget {
   const DashBoardWidget({

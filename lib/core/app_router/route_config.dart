@@ -166,7 +166,7 @@ class AppRouterConfig {
                         BlocProvider(
                           create: (context) =>
                            DashboardBlocProvider.get().
-                           pufToday()..request(),
+                           fetchPuf()..request(),
                            )
                       ],
                       child: const PufWidget(),
@@ -243,7 +243,7 @@ class AppRouterConfig {
                                   create: (_) => CreditsBlocProvider.get()
                                       .fetchCreditsItemLines()),
                               BlocProvider(create: (_) =>
-                                  DashboardBlocProvider.get().creditToday()
+                                  DashboardBlocProvider.get().fetchcredits()
                                   ..request(),
                               ),
                             ],
