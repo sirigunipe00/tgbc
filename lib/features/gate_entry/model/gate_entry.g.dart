@@ -21,6 +21,7 @@ _$GateEntryImpl _$$GateEntryImplFromJson(Map<String, dynamic> json) =>
       invoicePhoto: json['vendor_invoice_photo'] as String?,
       vehicleBackPhoto: json['vehicle_back_photo'] as String?,
       remarks: json['remarks'] as String?,
+      supplierName: json['supplierName'] as String?,
     );
 
 Map<String, dynamic> _$$GateEntryImplToJson(_$GateEntryImpl instance) =>
@@ -38,4 +39,5 @@ Map<String, dynamic> _$$GateEntryImplToJson(_$GateEntryImpl instance) =>
       'vendor_invoice_photo': instance.invoicePhoto,
       'vehicle_back_photo': instance.vehicleBackPhoto,
       'remarks': instance.remarks,
+      'supplierName': instance.supplierName,
     };

@@ -19,6 +19,7 @@ class NewGateEntryForm with _$NewGateEntryForm {
     @JsonKey(name: 'vehicle_back_photo') String? vehicleBackPhoto,
     @JsonKey(name: 'invoice_photo') String? vendorInvPhoto,
     @JsonKey(name: 'remarks') String? remarks,
+    String? suppplierName,
   }) = _NewGateEntryForm;
 
   factory NewGateEntryForm.fromJson(Map<String, Object?> json)

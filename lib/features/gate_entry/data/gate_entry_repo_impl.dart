@@ -123,4 +123,40 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
       return right(Pair(docNo.data.valueOrEmpty, msgWithDocNo));
     });
   }
+
+
+  
+  @override
+  AsyncValueOf<List<PurchaseOrder>> fetchSupplierName(String name) async {
+    return await executeSafely(() async {
+      final config = RequestConfig(
+        url: Urls.getList,
+
+        parser: (json) {
+          final data = json['message'];
+          final listdata = data as List<dynamic>;
+          return listdata.map((e) => PurchaseOrder.fromJson(e)).toList();
+        },
+        reqParams: {
+          'filters': jsonEncode([
+            ['name', '=', name],
+          ],),
+          'limit_start': 0,
+          'limit_page_length': 'None',
+          'oreder_by': 'creat desc',
+          'doctype': 'Purchase Order',
+
+          'fields': ['*'],
+        },
+
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      );
+
+      final response = await get(config);
+      $logger.devLog('response.....$response');
+      return response.processAsync((r) async {
+        return right((r.data!));
+      });
+    });
+  }
 }

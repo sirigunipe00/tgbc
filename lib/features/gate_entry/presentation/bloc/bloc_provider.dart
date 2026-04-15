@@ -19,6 +19,9 @@ typedef GateEntryDetailsState = NetworkRequestState<GateEntry>;
 typedef PurchaseOrders = NetworkRequestCubit<List<PurchaseOrder>, None>;
 typedef PurchaseOrdersState = NetworkRequestState<List<PurchaseOrder>>;
 
+typedef SupplierName = NetworkRequestCubit<List<PurchaseOrder>, String>;
+typedef SuppplierState = NetworkRequestState<List<PurchaseOrder>>;
+
 @lazySingleton
 class GateEntryBlocProvider {
   const GateEntryBlocProvider(this.repo);
@@ -39,5 +42,9 @@ class GateEntryBlocProvider {
 
   PurchaseOrders fetchPONumbers() => PurchaseOrders(
         onRequest: (_, __) => repo.fetchPONumbers(),
+      );
+
+  SupplierName fetchSupplierName() => SupplierName(
+        onRequest: (params,state) => repo.fetchSupplierName(params ?? ''),
       );
 }

@@ -22,6 +22,7 @@ _$NewGateEntryFormImpl _$$NewGateEntryFormImplFromJson(
       vehicleBackPhoto: json['vehicle_back_photo'] as String?,
       vendorInvPhoto: json['invoice_photo'] as String?,
       remarks: json['remarks'] as String?,
+      suppplierName: json['suppplierName'] as String?,
     );
 
 Map<String, dynamic> _$$NewGateEntryFormImplToJson(
@@ -46,5 +47,6 @@ Map<String, dynamic> _$$NewGateEntryFormImplToJson(
   val['vehicle_back_photo'] = instance.vehicleBackPhoto;
   val['invoice_photo'] = instance.vendorInvPhoto;
   val['remarks'] = instance.remarks;
+  val['suppplierName'] = instance.suppplierName;
   return val;
 }

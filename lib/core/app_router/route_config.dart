@@ -16,6 +16,7 @@ import 'package:tgbc_app/features/Vehicle_reporting_entry/presentation/ui/widget
 import 'package:tgbc_app/features/auth/presentation/authentication_scrn.dart';
 import 'package:tgbc_app/features/dashboard/presentation/bloc/blocprovider.dart';
 import 'package:tgbc_app/features/dashboard/presentation/screen/dashboard_screen.dart';
+import 'package:tgbc_app/features/gate_entry/model/gate_entry.dart';
 import 'package:tgbc_app/features/gate_entry/presentation/bloc/bloc_provider.dart';
 import 'package:tgbc_app/features/gate_entry/presentation/bloc/new_gate_entry/new_gate_entry_cubit.dart';
 import 'package:tgbc_app/features/gate_entry/presentation/ui/create/new_gate_entry.dart';
@@ -75,6 +76,8 @@ class AppRouterConfig {
                         builder: (ctxt, state) {
                           final provider = GateEntryBlocProvider.get();
                           final name = state.extra as String?;
+
+
                           return MultiBlocProvider(
                             providers: [
                               if (name.isNull) ...[
@@ -88,6 +91,7 @@ class AppRouterConfig {
                               BlocProvider(
                                   create: (_) =>
                                       provider.fetchPONumbers()..request()),
+                                    
                               BlocProvider(
                                   create: (_) => $sl.get<NewGateEntryCubit>()),
                             ],

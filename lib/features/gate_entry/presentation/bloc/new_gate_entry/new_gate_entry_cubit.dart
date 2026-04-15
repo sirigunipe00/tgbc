@@ -29,6 +29,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     String? invoiceAmt,
     String? remarks,
     File? invoicePhoto,
+    String? vendorName,
     File? vehiclePhoto,
     File? vehicleBackPhoto,
   }) {
@@ -50,6 +51,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       invoiceDate: invoiceDate ?? form.invoiceDate,
       invoiceQty: invoiceQty ?? form.invoiceQty,
       vendorInvPhoto: vendorInvPhoto,
+      suppplierName : vendorName ?? form.suppplierName, 
       vehiclePhoto: vehPhoto,
       invoiceAmt: invoiceAmt ?? form.invoiceAmt,
       remarks: remarks ?? form.remarks,
@@ -73,6 +75,7 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
       vendorInvNo: entry.vendorInvNo,
       vehiclePhoto: entry.vehiclePhoto,
       vendorInvPhoto: entry.invoicePhoto,
+      suppplierName : entry.supplierName,
       remarks: entry.remarks,
       vehicleBackPhoto: entry.vehicleBackPhoto,
     );

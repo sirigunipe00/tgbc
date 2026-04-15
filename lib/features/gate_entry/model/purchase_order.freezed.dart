@@ -20,12 +20,12 @@ PurchaseOrder _$PurchaseOrderFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PurchaseOrder {
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'po_number')
-  String get poNumber => throw _privateConstructorUsedError;
+  String? get poNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'supplier_name')
   String? get supplierName => throw _privateConstructorUsedError;
-  String get date => throw _privateConstructorUsedError;
+  String? get date => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_amount', defaultValue: 0.0)
   double get totalAmount => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_qty', defaultValue: 0.0)
@@ -44,10 +44,10 @@ abstract class $PurchaseOrderCopyWith<$Res> {
       _$PurchaseOrderCopyWithImpl<$Res, PurchaseOrder>;
   @useResult
   $Res call(
-      {String name,
-      @JsonKey(name: 'po_number') String poNumber,
+      {String? name,
+      @JsonKey(name: 'po_number') String? poNumber,
       @JsonKey(name: 'supplier_name') String? supplierName,
-      String date,
+      String? date,
       @JsonKey(name: 'total_amount', defaultValue: 0.0) double totalAmount,
       @JsonKey(name: 'total_qty', defaultValue: 0.0) double totalQnty});
 }
@@ -65,30 +65,30 @@ class _$PurchaseOrderCopyWithImpl<$Res, $Val extends PurchaseOrder>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? poNumber = null,
+    Object? name = freezed,
+    Object? poNumber = freezed,
     Object? supplierName = freezed,
-    Object? date = null,
+    Object? date = freezed,
     Object? totalAmount = null,
     Object? totalQnty = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      poNumber: null == poNumber
+              as String?,
+      poNumber: freezed == poNumber
           ? _value.poNumber
           : poNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       supplierName: freezed == supplierName
           ? _value.supplierName
           : supplierName // ignore: cast_nullable_to_non_nullable
               as String?,
-      date: null == date
+      date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
@@ -110,10 +110,10 @@ abstract class _$$PurchaseOrderImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name,
-      @JsonKey(name: 'po_number') String poNumber,
+      {String? name,
+      @JsonKey(name: 'po_number') String? poNumber,
       @JsonKey(name: 'supplier_name') String? supplierName,
-      String date,
+      String? date,
       @JsonKey(name: 'total_amount', defaultValue: 0.0) double totalAmount,
       @JsonKey(name: 'total_qty', defaultValue: 0.0) double totalQnty});
 }
@@ -129,30 +129,30 @@ class __$$PurchaseOrderImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? poNumber = null,
+    Object? name = freezed,
+    Object? poNumber = freezed,
     Object? supplierName = freezed,
-    Object? date = null,
+    Object? date = freezed,
     Object? totalAmount = null,
     Object? totalQnty = null,
   }) {
     return _then(_$PurchaseOrderImpl(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      poNumber: null == poNumber
+              as String?,
+      poNumber: freezed == poNumber
           ? _value.poNumber
           : poNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       supplierName: freezed == supplierName
           ? _value.supplierName
           : supplierName // ignore: cast_nullable_to_non_nullable
               as String?,
-      date: null == date
+      date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
@@ -169,10 +169,10 @@ class __$$PurchaseOrderImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PurchaseOrderImpl implements _PurchaseOrder {
   const _$PurchaseOrderImpl(
-      {required this.name,
-      @JsonKey(name: 'po_number') required this.poNumber,
+      {this.name,
+      @JsonKey(name: 'po_number') this.poNumber,
       @JsonKey(name: 'supplier_name') this.supplierName,
-      required this.date,
+      this.date,
       @JsonKey(name: 'total_amount', defaultValue: 0.0)
       required this.totalAmount,
       @JsonKey(name: 'total_qty', defaultValue: 0.0) required this.totalQnty});
@@ -181,15 +181,15 @@ class _$PurchaseOrderImpl implements _PurchaseOrder {
       _$$PurchaseOrderImplFromJson(json);
 
   @override
-  final String name;
+  final String? name;
   @override
   @JsonKey(name: 'po_number')
-  final String poNumber;
+  final String? poNumber;
   @override
   @JsonKey(name: 'supplier_name')
   final String? supplierName;
   @override
-  final String date;
+  final String? date;
   @override
   @JsonKey(name: 'total_amount', defaultValue: 0.0)
   final double totalAmount;
@@ -240,10 +240,10 @@ class _$PurchaseOrderImpl implements _PurchaseOrder {
 
 abstract class _PurchaseOrder implements PurchaseOrder {
   const factory _PurchaseOrder(
-      {required final String name,
-      @JsonKey(name: 'po_number') required final String poNumber,
+      {final String? name,
+      @JsonKey(name: 'po_number') final String? poNumber,
       @JsonKey(name: 'supplier_name') final String? supplierName,
-      required final String date,
+      final String? date,
       @JsonKey(name: 'total_amount', defaultValue: 0.0)
       required final double totalAmount,
       @JsonKey(name: 'total_qty', defaultValue: 0.0)
@@ -253,15 +253,15 @@ abstract class _PurchaseOrder implements PurchaseOrder {
       _$PurchaseOrderImpl.fromJson;
 
   @override
-  String get name;
+  String? get name;
   @override
   @JsonKey(name: 'po_number')
-  String get poNumber;
+  String? get poNumber;
   @override
   @JsonKey(name: 'supplier_name')
   String? get supplierName;
   @override
-  String get date;
+  String? get date;
   @override
   @JsonKey(name: 'total_amount', defaultValue: 0.0)
   double get totalAmount;

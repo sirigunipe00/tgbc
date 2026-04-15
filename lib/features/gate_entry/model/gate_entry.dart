@@ -19,6 +19,8 @@ class GateEntry with _$GateEntry {
     @JsonKey(name: 'vendor_invoice_photo') String? invoicePhoto,
     @JsonKey(name: 'vehicle_back_photo') String? vehicleBackPhoto,
     @JsonKey(name: 'remarks') String? remarks,
+
+    String? supplierName,
   }) = _GateEntry;
 
   factory GateEntry.fromJson(Map<String, Object?> json)

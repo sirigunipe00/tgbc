@@ -6,10 +6,10 @@ part 'purchase_order.g.dart';
 @freezed
 class PurchaseOrder with _$PurchaseOrder {
   const factory PurchaseOrder({
-    required String name,
-    @JsonKey(name: 'po_number') required String poNumber,
+     String? name,
+    @JsonKey(name: 'po_number')String? poNumber,
     @JsonKey(name: 'supplier_name') String? supplierName,
-    required String date,
+     String? date,
     @JsonKey(name: 'total_amount', defaultValue: 0.0) required double totalAmount,
     @JsonKey(name: 'total_qty', defaultValue: 0.0) required double totalQnty,
   }) = _PurchaseOrder;

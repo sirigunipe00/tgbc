@@ -46,6 +46,7 @@ mixin _$NewGateEntryForm {
   String? get vendorInvPhoto => throw _privateConstructorUsedError;
   @JsonKey(name: 'remarks')
   String? get remarks => throw _privateConstructorUsedError;
+  String? get suppplierName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -72,7 +73,8 @@ abstract class $NewGateEntryFormCopyWith<$Res> {
       @JsonKey(name: 'vehicle_photo') String? vehiclePhoto,
       @JsonKey(name: 'vehicle_back_photo') String? vehicleBackPhoto,
       @JsonKey(name: 'invoice_photo') String? vendorInvPhoto,
-      @JsonKey(name: 'remarks') String? remarks});
+      @JsonKey(name: 'remarks') String? remarks,
+      String? suppplierName});
 }
 
 /// @nodoc
@@ -101,6 +103,7 @@ class _$NewGateEntryFormCopyWithImpl<$Res, $Val extends NewGateEntryForm>
     Object? vehicleBackPhoto = freezed,
     Object? vendorInvPhoto = freezed,
     Object? remarks = freezed,
+    Object? suppplierName = freezed,
   }) {
     return _then(_value.copyWith(
       status: freezed == status
@@ -155,6 +158,10 @@ class _$NewGateEntryFormCopyWithImpl<$Res, $Val extends NewGateEntryForm>
           ? _value.remarks
           : remarks // ignore: cast_nullable_to_non_nullable
               as String?,
+      suppplierName: freezed == suppplierName
+          ? _value.suppplierName
+          : suppplierName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -180,7 +187,8 @@ abstract class _$$NewGateEntryFormImplCopyWith<$Res>
       @JsonKey(name: 'vehicle_photo') String? vehiclePhoto,
       @JsonKey(name: 'vehicle_back_photo') String? vehicleBackPhoto,
       @JsonKey(name: 'invoice_photo') String? vendorInvPhoto,
-      @JsonKey(name: 'remarks') String? remarks});
+      @JsonKey(name: 'remarks') String? remarks,
+      String? suppplierName});
 }
 
 /// @nodoc
@@ -207,6 +215,7 @@ class __$$NewGateEntryFormImplCopyWithImpl<$Res>
     Object? vehicleBackPhoto = freezed,
     Object? vendorInvPhoto = freezed,
     Object? remarks = freezed,
+    Object? suppplierName = freezed,
   }) {
     return _then(_$NewGateEntryFormImpl(
       status: freezed == status
@@ -261,6 +270,10 @@ class __$$NewGateEntryFormImplCopyWithImpl<$Res>
           ? _value.remarks
           : remarks // ignore: cast_nullable_to_non_nullable
               as String?,
+      suppplierName: freezed == suppplierName
+          ? _value.suppplierName
+          : suppplierName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -281,7 +294,8 @@ class _$NewGateEntryFormImpl implements _NewGateEntryForm {
       @JsonKey(name: 'vehicle_photo') this.vehiclePhoto,
       @JsonKey(name: 'vehicle_back_photo') this.vehicleBackPhoto,
       @JsonKey(name: 'invoice_photo') this.vendorInvPhoto,
-      @JsonKey(name: 'remarks') this.remarks});
+      @JsonKey(name: 'remarks') this.remarks,
+      this.suppplierName});
 
   factory _$NewGateEntryFormImpl.fromJson(Map<String, dynamic> json) =>
       _$$NewGateEntryFormImplFromJson(json);
@@ -325,10 +339,12 @@ class _$NewGateEntryFormImpl implements _NewGateEntryForm {
   @override
   @JsonKey(name: 'remarks')
   final String? remarks;
+  @override
+  final String? suppplierName;
 
   @override
   String toString() {
-    return 'NewGateEntryForm(status: $status, name: $name, poNumber: $poNumber, vehicleNo: $vehicleNo, vendorInvNo: $vendorInvNo, invoiceDate: $invoiceDate, invoiceQty: $invoiceQty, invoiceAmt: $invoiceAmt, entryDate: $entryDate, vehiclePhoto: $vehiclePhoto, vehicleBackPhoto: $vehicleBackPhoto, vendorInvPhoto: $vendorInvPhoto, remarks: $remarks)';
+    return 'NewGateEntryForm(status: $status, name: $name, poNumber: $poNumber, vehicleNo: $vehicleNo, vendorInvNo: $vendorInvNo, invoiceDate: $invoiceDate, invoiceQty: $invoiceQty, invoiceAmt: $invoiceAmt, entryDate: $entryDate, vehiclePhoto: $vehiclePhoto, vehicleBackPhoto: $vehicleBackPhoto, vendorInvPhoto: $vendorInvPhoto, remarks: $remarks, suppplierName: $suppplierName)';
   }
 
   @override
@@ -358,7 +374,9 @@ class _$NewGateEntryFormImpl implements _NewGateEntryForm {
                 other.vehicleBackPhoto == vehicleBackPhoto) &&
             (identical(other.vendorInvPhoto, vendorInvPhoto) ||
                 other.vendorInvPhoto == vendorInvPhoto) &&
-            (identical(other.remarks, remarks) || other.remarks == remarks));
+            (identical(other.remarks, remarks) || other.remarks == remarks) &&
+            (identical(other.suppplierName, suppplierName) ||
+                other.suppplierName == suppplierName));
   }
 
   @JsonKey(ignore: true)
@@ -377,7 +395,8 @@ class _$NewGateEntryFormImpl implements _NewGateEntryForm {
       vehiclePhoto,
       vehicleBackPhoto,
       vendorInvPhoto,
-      remarks);
+      remarks,
+      suppplierName);
 
   @JsonKey(ignore: true)
   @override
@@ -408,8 +427,8 @@ abstract class _NewGateEntryForm implements NewGateEntryForm {
       @JsonKey(name: 'vehicle_photo') final String? vehiclePhoto,
       @JsonKey(name: 'vehicle_back_photo') final String? vehicleBackPhoto,
       @JsonKey(name: 'invoice_photo') final String? vendorInvPhoto,
-      @JsonKey(name: 'remarks')
-      final String? remarks}) = _$NewGateEntryFormImpl;
+      @JsonKey(name: 'remarks') final String? remarks,
+      final String? suppplierName}) = _$NewGateEntryFormImpl;
 
   factory _NewGateEntryForm.fromJson(Map<String, dynamic> json) =
       _$NewGateEntryFormImpl.fromJson;
@@ -453,6 +472,8 @@ abstract class _NewGateEntryForm implements NewGateEntryForm {
   @override
   @JsonKey(name: 'remarks')
   String? get remarks;
+  @override
+  String? get suppplierName;
   @override
   @JsonKey(ignore: true)
   _$$NewGateEntryFormImplCopyWith<_$NewGateEntryFormImpl> get copyWith =>

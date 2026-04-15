@@ -13,4 +13,5 @@ abstract interface class GateEntryRepo {
   AsyncValueOf<List<PurchaseOrder>> fetchPONumbers();
   AsyncValueOf<Pair<String, String>> createGateEntry(NewGateEntryForm form);
   AsyncValueOf<Pair<String, String>> submitGateEntry(NewGateEntryForm form);
+  AsyncValueOf<List<PurchaseOrder>> fetchSupplierName(String name);
 }

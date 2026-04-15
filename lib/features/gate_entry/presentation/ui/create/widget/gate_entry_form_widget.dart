@@ -45,7 +45,7 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
               readOnly: isCompleted,
               hint: 'Select PO Number',
               isMandatory: true,
-              headerBuilder: (_, item, __) => Text(item.poNumber),
+              headerBuilder: (_, item, __) => Text(item.poNumber ??''),
               defaultSelection: form.poNumber.containsValidValue
                 ? PurchaseOrder(
                       name: '',
@@ -58,12 +58,12 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
               listItemBuilder: (_, item, isSelected, p3) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(item.poNumber,
+                  Text(item.poNumber ?? '',
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                   Text('${item.name} - ${item.supplierName}'),
                   Row(
                     children: [
-                      Text('${DFU.friendlyFormat((DateTime.parse(item.date)))} - '),
+                      Text('${DFU.friendlyFormat((DateTime.parse(item.date ?? '')))} - '),
                       const SizedBox(width: 2.0),
                       Text(item.totalAmount.toString()),
                     ],
@@ -91,7 +91,8 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
                 }
                 context
                     .cubit<NewGateEntryCubit>()
-                    .onValueChanged(poNumber: order!.poNumber);
+                    .onValueChanged(poNumber: order!.poNumber,
+                    vendorName: order.supplierName);
               },
             );
           },
@@ -296,7 +297,7 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
 
   Future<List<PurchaseOrder>> _onSearch(
       List<PurchaseOrder> data, String query) async {
-    final filterData = data.where((e) => e.poNumber.contains(query)).toList();
+    final filterData = data.where((e) => e.poNumber?.contains(query) ?? false).toList();
     return filterData;
   }
 }

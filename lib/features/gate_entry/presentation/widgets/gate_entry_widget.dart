@@ -1,5 +1,7 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tgbc_app/core/core.dart';
 import 'package:tgbc_app/features/gate_entry/model/gate_entry.dart';
+import 'package:tgbc_app/features/gate_entry/presentation/bloc/bloc_provider.dart';
 import 'package:tgbc_app/styles/app_colors.dart';
 import 'package:tgbc_app/styles/app_text_styles.dart';
 import 'package:tgbc_app/styles/icons.dart';
@@ -57,6 +59,33 @@ class GateEntryWidget extends StatelessWidget {
                 Text(gateEntry.poNumber,
                     style: AppTextStyles.titleLarge(context)
                         .copyWith(color: AppColors.black)),
+                BlocBuilder<SupplierName, SuppplierState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      orElse: () => const SizedBox(),
+                      // loading: () => const CircularProgressIndicator(),
+                      loading: () => const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      success: (data) {
+                        final supplier = data.isNotEmpty ? data.first : null;
+                        return Text(
+                          supplier?.supplierName ?? "No Supplier",
+                          style: AppTextStyles.titleMedium(
+                            context,
+                            AppColors.black,
+                          ).copyWith(color: AppColors.chimneySweep),
+                        );
+                      },
+                      failure: (error) => const Text(
+                        "Error",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
+                  },
+                ),
                 AppSpacer.p8(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

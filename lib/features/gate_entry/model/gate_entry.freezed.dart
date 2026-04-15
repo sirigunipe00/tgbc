@@ -44,6 +44,7 @@ mixin _$GateEntry {
   String? get vehicleBackPhoto => throw _privateConstructorUsedError;
   @JsonKey(name: 'remarks')
   String? get remarks => throw _privateConstructorUsedError;
+  String? get supplierName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -69,7 +70,8 @@ abstract class $GateEntryCopyWith<$Res> {
       @JsonKey(name: 'vehicle_image') String? vehiclePhoto,
       @JsonKey(name: 'vendor_invoice_photo') String? invoicePhoto,
       @JsonKey(name: 'vehicle_back_photo') String? vehicleBackPhoto,
-      @JsonKey(name: 'remarks') String? remarks});
+      @JsonKey(name: 'remarks') String? remarks,
+      String? supplierName});
 }
 
 /// @nodoc
@@ -98,6 +100,7 @@ class _$GateEntryCopyWithImpl<$Res, $Val extends GateEntry>
     Object? invoicePhoto = freezed,
     Object? vehicleBackPhoto = freezed,
     Object? remarks = freezed,
+    Object? supplierName = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -152,6 +155,10 @@ class _$GateEntryCopyWithImpl<$Res, $Val extends GateEntry>
           ? _value.remarks
           : remarks // ignore: cast_nullable_to_non_nullable
               as String?,
+      supplierName: freezed == supplierName
+          ? _value.supplierName
+          : supplierName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -177,7 +184,8 @@ abstract class _$$GateEntryImplCopyWith<$Res>
       @JsonKey(name: 'vehicle_image') String? vehiclePhoto,
       @JsonKey(name: 'vendor_invoice_photo') String? invoicePhoto,
       @JsonKey(name: 'vehicle_back_photo') String? vehicleBackPhoto,
-      @JsonKey(name: 'remarks') String? remarks});
+      @JsonKey(name: 'remarks') String? remarks,
+      String? supplierName});
 }
 
 /// @nodoc
@@ -204,6 +212,7 @@ class __$$GateEntryImplCopyWithImpl<$Res>
     Object? invoicePhoto = freezed,
     Object? vehicleBackPhoto = freezed,
     Object? remarks = freezed,
+    Object? supplierName = freezed,
   }) {
     return _then(_$GateEntryImpl(
       name: null == name
@@ -258,6 +267,10 @@ class __$$GateEntryImplCopyWithImpl<$Res>
           ? _value.remarks
           : remarks // ignore: cast_nullable_to_non_nullable
               as String?,
+      supplierName: freezed == supplierName
+          ? _value.supplierName
+          : supplierName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -281,7 +294,8 @@ class _$GateEntryImpl implements _GateEntry {
       @JsonKey(name: 'vehicle_image') this.vehiclePhoto,
       @JsonKey(name: 'vendor_invoice_photo') this.invoicePhoto,
       @JsonKey(name: 'vehicle_back_photo') this.vehicleBackPhoto,
-      @JsonKey(name: 'remarks') this.remarks});
+      @JsonKey(name: 'remarks') this.remarks,
+      this.supplierName});
 
   factory _$GateEntryImpl.fromJson(Map<String, dynamic> json) =>
       _$$GateEntryImplFromJson(json);
@@ -323,10 +337,12 @@ class _$GateEntryImpl implements _GateEntry {
   @override
   @JsonKey(name: 'remarks')
   final String? remarks;
+  @override
+  final String? supplierName;
 
   @override
   String toString() {
-    return 'GateEntry(name: $name, status: $status, poNumber: $poNumber, vehicleNo: $vehicleNo, vendorInvNo: $vendorInvNo, invoiceDate: $invoiceDate, invoiceQty: $invoiceQty, invoiceAmt: $invoiceAmt, entryDate: $entryDate, vehiclePhoto: $vehiclePhoto, invoicePhoto: $invoicePhoto, vehicleBackPhoto: $vehicleBackPhoto, remarks: $remarks)';
+    return 'GateEntry(name: $name, status: $status, poNumber: $poNumber, vehicleNo: $vehicleNo, vendorInvNo: $vendorInvNo, invoiceDate: $invoiceDate, invoiceQty: $invoiceQty, invoiceAmt: $invoiceAmt, entryDate: $entryDate, vehiclePhoto: $vehiclePhoto, invoicePhoto: $invoicePhoto, vehicleBackPhoto: $vehicleBackPhoto, remarks: $remarks, supplierName: $supplierName)';
   }
 
   @override
@@ -356,7 +372,9 @@ class _$GateEntryImpl implements _GateEntry {
                 other.invoicePhoto == invoicePhoto) &&
             (identical(other.vehicleBackPhoto, vehicleBackPhoto) ||
                 other.vehicleBackPhoto == vehicleBackPhoto) &&
-            (identical(other.remarks, remarks) || other.remarks == remarks));
+            (identical(other.remarks, remarks) || other.remarks == remarks) &&
+            (identical(other.supplierName, supplierName) ||
+                other.supplierName == supplierName));
   }
 
   @JsonKey(ignore: true)
@@ -375,7 +393,8 @@ class _$GateEntryImpl implements _GateEntry {
       vehiclePhoto,
       invoicePhoto,
       vehicleBackPhoto,
-      remarks);
+      remarks,
+      supplierName);
 
   @JsonKey(ignore: true)
   @override
@@ -409,7 +428,8 @@ abstract class _GateEntry implements GateEntry {
       @JsonKey(name: 'vehicle_image') final String? vehiclePhoto,
       @JsonKey(name: 'vendor_invoice_photo') final String? invoicePhoto,
       @JsonKey(name: 'vehicle_back_photo') final String? vehicleBackPhoto,
-      @JsonKey(name: 'remarks') final String? remarks}) = _$GateEntryImpl;
+      @JsonKey(name: 'remarks') final String? remarks,
+      final String? supplierName}) = _$GateEntryImpl;
 
   factory _GateEntry.fromJson(Map<String, dynamic> json) =
       _$GateEntryImpl.fromJson;
@@ -451,6 +471,8 @@ abstract class _GateEntry implements GateEntry {
   @override
   @JsonKey(name: 'remarks')
   String? get remarks;
+  @override
+  String? get supplierName;
   @override
   @JsonKey(ignore: true)
   _$$GateEntryImplCopyWith<_$GateEntryImpl> get copyWith =>

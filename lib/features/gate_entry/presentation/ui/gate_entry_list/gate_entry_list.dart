@@ -30,9 +30,22 @@ class GateEntryListScrn extends StatelessWidget {
       },
       status: const ['All', 'Draft', 'Submitted', 'Cancelled'],
       child: InfiniteListViewWidget<GateEntriesCubit, GateEntry>(
-        childBuilder: (context, entry) => GateEntryWidget(
-          gateEntry: entry,
-          onTap: () => AppRoute.newGateEntry.push<bool?>(context, extra: entry.name),
+        childBuilder: (context, entry) => MultiBlocProvider(
+        
+          providers: [
+            BlocProvider(
+              
+              create: (context) => GateEntryBlocProvider.get()
+                .fetchSupplierName()
+                ..request(entry.poNumber),
+            ),
+         
+          ],
+          child: GateEntryWidget(
+            gateEntry: entry,
+            onTap: () =>
+                AppRoute.newGateEntry.push<bool?>(context, extra: entry.name),
+          ),
         ),
         fetchInitial: () => fetchInital(context),
         fetchMore: () => fetchMore(context),
