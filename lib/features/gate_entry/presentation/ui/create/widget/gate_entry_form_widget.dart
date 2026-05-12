@@ -54,7 +54,26 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
                       totalQnty: 0.0,
                       totalAmount: 0.0)
                   : null,
-              futureRequest: (query) => _onSearch(items, query),
+              futureRequest: (searchText) async {
+                                    if (searchText.trim().isEmpty) {
+                                      return items;
+                                    }
+                                    final query =
+                                        searchText.trim().toLowerCase();
+                                    final filtered =
+                                        items.where((item) {
+                                          final name =
+                                              item.poNumber?.toLowerCase() ?? '';
+                                          final supplier =
+                                              item.supplierName
+                                                  ?.toLowerCase() ??
+                                              '';
+                                          return name.contains(query) ||
+                                              supplier.contains(query);
+                                        }).toList();
+
+                                    return filtered;
+                                  },
               listItemBuilder: (_, item, isSelected, p3) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

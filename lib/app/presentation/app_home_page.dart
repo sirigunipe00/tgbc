@@ -20,17 +20,12 @@ class AppHomePage extends StatelessWidget {
   Future<void> launchCredits() async {
     final String base = Urls.baseUrl.replaceAll('/api', '');
   final Uri url = Uri.parse('$base/app/credits-u1');
-
-  log('url.........$url');
-  
   try {
-
     bool launched = await launchUrl(
       url, 
       mode: LaunchMode.externalApplication,
     );
-    
-    if (!launched) {
+  if (!launched) {
       debugPrint('Could not launch $url');
     }
   } catch (e) {
@@ -39,8 +34,8 @@ class AppHomePage extends StatelessWidget {
   }
 }
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // Set status bar color to white
-      statusBarIconBrightness: Brightness.dark, // Dark icons for contrast
+      statusBarColor: Colors.white, 
+      statusBarIconBrightness: Brightness.dark, 
     ));
 
     return Scaffold(

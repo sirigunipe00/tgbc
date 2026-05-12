@@ -30,16 +30,25 @@ class GateExitListScrn extends StatelessWidget {
         fetchInital(context);
       },
       status: const ['All','Draft', 'Submitted','Cancelled'],
-      child: InfiniteListViewWidget<GateExitsCubit, GateExit>(
-        childBuilder: (context, exit) => GateExitWidget(
-          gateExit: exit,
-          onTap: () =>
-            AppRoute.newGateExit.push<bool?>(context, extra: exit.name),
-          
+      child: RefreshIndicator(
+        onRefresh: (){
+          final filters = context.read<GateExitFilterCubit>().state;
+
+          return context.cubit<GateExitsCubit>().fetchInitial(
+            filters
+          );
+        },
+        child: InfiniteListViewWidget<GateExitsCubit, GateExit>(
+          childBuilder: (context, exit) => GateExitWidget(
+            gateExit: exit,
+            onTap: () =>
+              AppRoute.newGateExit.push<bool?>(context, extra: exit.name),
+            
+          ),
+          fetchInitial: () => fetchInital(context),
+          fetchMore: () => fetchMore(context),
+          emptyListText: 'No GateExits Found',
         ),
-        fetchInitial: () => fetchInital(context),
-        fetchMore: () => fetchMore(context),
-        emptyListText: 'No GateExits Found',
       ),
     );
   }

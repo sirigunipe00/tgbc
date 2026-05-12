@@ -28,15 +28,23 @@ class VrtListScreen extends StatelessWidget {
         _fetchInitial(context);
       },
       status: const ['Draft', 'Submitted'],
-     child: InfiniteListViewWidget<GetVRTList, VrtForm>(
-        childBuilder: (context, entry) => VrtWidget(
-          vrt: entry,
-          onTap: () => AppRoute.newVrt.push<bool?>(context, extra: entry),
+     child: RefreshIndicator(
+      onRefresh: (){
+        final filters = context.read<VrtFiltersCubit>().state;
+    return context.cubit<GetVRTList>().fetchInitial(
+         Pair(StringUtils.docStatusInt(filters.status), filters.query));
+  
+      },
+       child: InfiniteListViewWidget<GetVRTList, VrtForm>(
+          childBuilder: (context, entry) => VrtWidget(
+            vrt: entry,
+            onTap: () => AppRoute.newVrt.push<bool?>(context, extra: entry),
+          ),
+          fetchInitial: () => _fetchInitial(context),
+          fetchMore: () => _fetchMore(context),
+          emptyListText: 'No Vehicle Reporting Entries Found',
         ),
-        fetchInitial: () => _fetchInitial(context),
-        fetchMore: () => _fetchMore(context),
-        emptyListText: 'No Vehicle Reporting Entries Found',
-      ),
+     ),
     );
   }
 

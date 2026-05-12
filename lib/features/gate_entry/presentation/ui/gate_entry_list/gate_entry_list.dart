@@ -29,27 +29,36 @@ class GateEntryListScrn extends StatelessWidget {
         fetchInital(context);
       },
       status: const ['All', 'Draft', 'Submitted', 'Cancelled'],
-      child: InfiniteListViewWidget<GateEntriesCubit, GateEntry>(
-        childBuilder: (context, entry) => MultiBlocProvider(
-        
-          providers: [
-            BlocProvider(
-              
-              create: (context) => GateEntryBlocProvider.get()
-                .fetchSupplierName()
-                ..request(entry.poNumber),
+      child: RefreshIndicator(
+        onRefresh: (){
+          final filters = context.read<GateEntryFilterCubit>().state;
+
+          return context.cubit<GateEntriesCubit>().fetchInitial(
+            filters
+          );
+        },
+        child: InfiniteListViewWidget<GateEntriesCubit, GateEntry>(
+          childBuilder: (context, entry) => MultiBlocProvider(
+          
+            providers: [
+              BlocProvider(
+                
+                create: (context) => GateEntryBlocProvider.get()
+                  .fetchSupplierName()
+                  ..request(entry.poNumber),
+              ),
+           
+            ],
+            child: GateEntryWidget(
+              gateEntry: entry,
+              onTap: () =>
+                  AppRoute.newGateEntry.push<bool?>(context, extra: entry.name),
             ),
-         
-          ],
-          child: GateEntryWidget(
-            gateEntry: entry,
-            onTap: () =>
-                AppRoute.newGateEntry.push<bool?>(context, extra: entry.name),
           ),
+          fetchInitial: () => fetchInital(context),
+          fetchMore: () => fetchMore(context),
+          emptyListText: 'No GateEntries Found',
         ),
-        fetchInitial: () => fetchInital(context),
-        fetchMore: () => fetchMore(context),
-        emptyListText: 'No GateEntries Found',
       ),
     );
   }

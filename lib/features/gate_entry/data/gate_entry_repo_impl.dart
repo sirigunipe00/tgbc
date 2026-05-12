@@ -41,6 +41,7 @@ class GateEntryRepoImpl extends BaseApiRepository implements GateEntryRepo {
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     );
     final response = await get(requestConfig);
+    $logger.devLog('data.........$requestConfig');
     return response.process((r) => right(r.data!));
   }
 
