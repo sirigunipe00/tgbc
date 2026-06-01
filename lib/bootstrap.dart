@@ -19,9 +19,9 @@ Future<void> bootstrap(void Function() runApp) async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await _initInjector();
   if(kDebugMode) {
-    await register<Urls>(Urls.cooltechUAT(), instanceName: 'baseUrl');
+    await register<Urls>(Urls.cooltechLive(), instanceName: 'baseUrl');
   } else {
-    await register<Urls>(Urls.cooltechUAT(), instanceName: 'baseUrl');
+    await register<Urls>(Urls.cooltechLive(), instanceName: 'baseUrl');
   }
   await _initFirebase(); 
   _setupErrorHandling(runApp);

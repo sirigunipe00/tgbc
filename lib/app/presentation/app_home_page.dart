@@ -19,7 +19,7 @@ class AppHomePage extends StatelessWidget {
 
   Future<void> launchCredits() async {
     final String base = Urls.baseUrl.replaceAll('/api', '');
-  final Uri url = Uri.parse('$base/app/credits-u1');
+  final Uri url = Uri.parse('$base/app/credits-scan');
   try {
     bool launched = await launchUrl(
       url, 
