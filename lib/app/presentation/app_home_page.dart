@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:tgbc_app/app/presentation/app_update_blocprovider.dart';
 import 'package:tgbc_app/app/widgets/app_feature_widget.dart';
 import 'package:tgbc_app/core/core.dart';

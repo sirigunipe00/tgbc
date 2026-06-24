@@ -26,8 +26,8 @@ class GateExitBlocProvider {
 
 
   GateExitsCubit createGateExitsCubit() => GateExitsCubit(
-    requestInitial: (params, state) => repo.fetchGateExits(1, 20, params!),
-    requestMore: (params, state) => repo.fetchGateExits(state.curLength + 1, state.curLength + 20, params!),
+    requestInitial: (params, state) => repo.fetchGateExits(1, 20, params ?? PageListFilters.initial() ),
+    requestMore: (params, state) => repo.fetchGateExits(state.curLength + 1, state.curLength + 20,  params ?? PageListFilters.initial(),),
   );
 
   GateExitDetails getDetails() => GateExitDetails(

@@ -5,10 +5,10 @@ import 'package:tgbc_app/core/di/injector.dart';
 final _reqisteredUrl = $sl.get<Urls>(instanceName: 'baseUrl');
 
 class Urls {
-  factory Urls.cooltechUAT() =>
+  factory Urls.tgbcUAT() =>
       const Urls('https://tgbcnextuat.easycloud.co.in/api');
   factory Urls.local() => const Urls('http://157.180.125.6:8000/api');
-  factory Urls.cooltechLive() => const Urls('https://livetgbcerp.easycloud.co.in/api');
+  factory Urls.tgbcLive() => const Urls('https://livetgbcerp.easycloud.co.in/api');
 
   //https://rilcooltecherp.easycloud.co.in/app/home
   const Urls(this.url);
