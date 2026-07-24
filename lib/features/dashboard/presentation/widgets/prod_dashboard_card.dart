@@ -26,7 +26,7 @@ class ProdDashboardCard extends StatelessWidget {
       shadowColor: color,
       shape: RoundedRectangleBorder(borderRadius: border),
       child: Container(
-        decoration: BoxDecoration(borderRadius: border,border: Border.all(color: Colors.black.withOpacity(0.4),width: 0.5)),
+        decoration: BoxDecoration(borderRadius: border,border: Border.all(color: Colors.black.withValues(alpha:0.4),width: 0.5)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -34,7 +34,7 @@ class ProdDashboardCard extends StatelessWidget {
                Divider(
               height: 0, 
               thickness: 0.5,
-              color: Colors.black54.withOpacity(0.4),
+              color: Colors.black54.withValues(alpha:0.4),
             ),
             const SizedBox(height: 10),
             if (isLoading)

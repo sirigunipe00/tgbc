@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:tgbc_app/core/core.dart';
 import 'package:tgbc_app/features/gate_entry/model/purchase_order.dart';
 import 'package:tgbc_app/features/gate_entry/presentation/bloc/bloc_provider.dart';
 import 'package:tgbc_app/features/gate_entry/presentation/bloc/new_gate_entry/new_gate_entry_cubit.dart';
+import 'package:tgbc_app/features/gate_entry/presentation/ui/create/widget/number_plate_reader.dart';
 
 import 'package:tgbc_app/styles/app_colors.dart';
 import 'package:tgbc_app/widgets/app_spacer.dart';
@@ -22,6 +25,83 @@ class GateEntryFormWidget extends StatefulWidget {
 }
 
 class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
+    late final TextEditingController _vehicleNoController;
+  bool _isScanningPlate = false;
+        @override
+  void initState() {
+    super.initState();
+    final form = context.read<NewGateEntryCubit>().state.form;
+    _vehicleNoController = TextEditingController(text: form.vehicleNo ?? '');
+  }
+
+  @override
+  void dispose() {
+    _vehicleNoController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleVehiclePhoto(File? file) async {
+
+    if (file == null) {
+      context.cubit<NewGateEntryCubit>().clearVehiclePhoto();
+      _vehicleNoController.clear();
+      context.cubit<NewGateEntryCubit>().onValueChanged(vehicleNo: '');
+      return;
+    }
+
+    context.cubit<NewGateEntryCubit>().onValueChanged(vehiclePhoto: file);
+
+
+    setState(() => _isScanningPlate = true);
+
+    String? plate;
+    try {
+      plate = await NumberPlateReader.readPlate(file);
+    } on BlurryImageException catch (e) {
+      debugPrint('Blurry vehicle photo: $e');
+      if (!mounted) return;
+      setState(() => _isScanningPlate = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'That photo looks too blurry to read. Please retake it — hold '
+            'steady and make sure the plate is in focus.',
+          ),
+        ),
+      );
+      return;
+    } catch (e) {
+      debugPrint('Plate OCR failed: $e');
+    } finally {
+      if (mounted) setState(() => _isScanningPlate = false);
+    }
+
+    if (!mounted) return;
+
+    if (plate != null && plate != 'Plate not confidently detected') {
+      _vehicleNoController.text = plate;
+      _vehicleNoController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _vehicleNoController.text.length),
+      );
+
+      context.cubit<NewGateEntryCubit>().onValueChanged(vehicleNo: plate);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Vehicle Number detected: $plate')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "We couldn't read the plate clearly. Please retake the photo — "
+            'get closer, hold steady, and make sure the plate is well lit '
+            'and not at an angle. You can also type it in manually.',
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final formState = context.read<NewGateEntryCubit>().state;
@@ -116,19 +196,6 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
             );
           },
         ),
-        InputField(
-          title: 'Vechicle Number',
-          readOnly: isCompleted,
-          isRequired: true,
-          initialValue: form.vehicleNo,
-          inputFormatters: [UpperCaseTextFormatter()],
-          borderColor: AppColors.marigoldDDust,
-          onChanged: (vehicleNum) {
-            context
-                .cubit<NewGateEntryCubit>()
-                .onValueChanged(vehicleNo: vehicleNum);
-          },
-        ),
         Row(
           children: [
             Expanded(
@@ -141,19 +208,14 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
                     key: ValueKey(state.form.vehiclePhoto),
                     borderColor: AppColors.marigoldDDust,
                     defaultVal: state.form.vehiclePhoto,
-                    placeholder: const Icon(Icons.local_shipping, size: 64, color: AppColors.chimneySweep),
+                    placeholder: const Icon(Icons.local_shipping,
+                        size: 64, color: AppColors.chimneySweep),
                     onView: () {
                       final data = Pair(form.name ?? 'Vechicle Front Photo',
                           state.form.vehiclePhoto);
                       AppRoute.newGateEntryPreview.push(context, extra: data);
                     },
-                    onImage: (file) {
-                      if (file.isNull) {
-                        context.cubit<NewGateEntryCubit>().clearVehiclePhoto();
-                      } else {
-                        context.cubit<NewGateEntryCubit>().onValueChanged(vehiclePhoto: file);
-                      }
-                    },
+                    onImage: _handleVehiclePhoto,
                   );
                 },
               ),
@@ -221,6 +283,29 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
                 }
               },
             );
+          },
+        ),
+        InputField(
+          title: 'Vechicle Number',
+          readOnly: isCompleted,
+          isRequired: true,
+          controller: _vehicleNoController,
+          inputFormatters: [UpperCaseTextFormatter()],
+          borderColor: AppColors.marigoldDDust,
+          suffixIcon: _isScanningPlate
+              ? const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                )
+              : null,
+          onChanged: (vehicleNum) {
+            context
+                .cubit<NewGateEntryCubit>()
+                .onValueChanged(vehicleNo: vehicleNum);
           },
         ),
         InputField(
@@ -312,11 +397,5 @@ class _GateEntryFormWidgetState extends State<GateEntryFormWidget> {
         ],
       ],
     );
-  }
-
-  Future<List<PurchaseOrder>> _onSearch(
-      List<PurchaseOrder> data, String query) async {
-    final filterData = data.where((e) => e.poNumber?.contains(query) ?? false).toList();
-    return filterData;
   }
 }

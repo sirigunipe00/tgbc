@@ -40,7 +40,7 @@ String formatNumber(String value) {
       elevation: 6,
       shape: const RoundedRectangleBorder(borderRadius: border),
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0),border: Border.all(color: Colors.black.withOpacity(0.4),width: 0.5)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0),border: Border.all(color: Colors.black.withValues(alpha:0.4),width: 0.5)),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -73,7 +73,7 @@ String formatNumber(String value) {
                Divider(
               height: 0, 
               thickness: 0.5,
-              color: Colors.black54.withOpacity(0.4),
+              color: Colors.black54.withValues(alpha:0.4),
             ),
 
               Row(

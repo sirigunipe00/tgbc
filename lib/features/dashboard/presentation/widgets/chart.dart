@@ -109,48 +109,8 @@ class ProdBarChart extends StatelessWidget {
             ],
           ),
         ),
-        // const SizedBox(height: 8),
-        // const Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     _Legend(color: Color(0xFF5b93ff), text: 'PUF'),
-        //     SizedBox(width: 12),
-        //     _Legend(color: Color(0xFFff8f6b), text: 'Credits'),
-        //   ],
-        // ),
-        const SizedBox(height: 6),
-        // Text(
-        //   "Hourly Production Summary (Today)",
-        //   style: TextStyle(
-        //     fontSize: 13,
-        //     fontWeight: FontWeight.bold,
-        //     color: isDark ? Colors.white70 : Colors.black87,
-        //   ),
-        // ),
-      ],
-    );
-  }
-}
-
-class _Legend extends StatelessWidget {
-  final Color color;
-  final String text;
-  const _Legend({required this.color, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 14,
-          height: 14,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(3),
-          ),
-        ),
-        const SizedBox(width: 4),
-        Text(text, style: const TextStyle(fontSize: 12)),
+       
+     
       ],
     );
   }

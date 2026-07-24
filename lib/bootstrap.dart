@@ -19,9 +19,9 @@ Future<void> bootstrap(void Function() runApp) async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await _initInjector();
   if(kDebugMode) {
-    await register<Urls>(Urls.tgbcLive(), instanceName: 'baseUrl');
+    await register<Urls>(Urls.tgbcUAT(), instanceName: 'baseUrl');
   } else {
-    await register<Urls>(Urls.tgbcLive(), instanceName: 'baseUrl');
+    await register<Urls>(Urls.tgbcUAT(), instanceName: 'baseUrl');
   }
   await _initFirebase(); 
   _setupErrorHandling(runApp);

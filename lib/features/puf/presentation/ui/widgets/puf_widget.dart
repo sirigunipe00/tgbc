@@ -52,7 +52,10 @@ class PufWidgetState extends State<PufWidget> {
       setState(() {
         scannedMachines.add(barcodeScanRes);
       });
-      context.bloc<CreatePufCubit>().request(barcodeScanRes);
+      if(context.mounted){
+        context.bloc<CreatePufCubit>().request(barcodeScanRes);
+      }
+     
     }
   }
 

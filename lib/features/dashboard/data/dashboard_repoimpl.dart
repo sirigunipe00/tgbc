@@ -1,12 +1,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tgbc_app/core/consts/urls.dart';
 import 'package:tgbc_app/core/core.dart';
-import 'package:tgbc_app/core/logger/app_logger.dart';
-import 'package:tgbc_app/core/network/base_api_repo.dart';
-import 'package:tgbc_app/core/network/request_config.dart';
-import 'package:tgbc_app/core/utils/typedefs.dart';
 import 'package:tgbc_app/features/dashboard/data/dashboard_repo.dart';
 import 'package:tgbc_app/features/dashboard/data/model/credits_model.dart';
 import 'package:tgbc_app/features/dashboard/data/model/dashboard_hourly.dart';

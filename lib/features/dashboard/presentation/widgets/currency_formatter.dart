@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
 
 class CurrencyFormatter {
-  static NumberFormat _numberFormatter = NumberFormat("#,##,###.##");
-  static NumberFormat _compactCurrencyFormatter = NumberFormat.compactSimpleCurrency(locale: "en_IN");
-  static NumberFormat _compactFormatter = NumberFormat.compact(
+  static final NumberFormat _numberFormatter = NumberFormat("#,##,###.##");
+  static final NumberFormat _compactCurrencyFormatter = NumberFormat.compactSimpleCurrency(locale: "en_IN");
+  static final NumberFormat _compactFormatter = NumberFormat.compact(
     locale: "en_IN",
   );
 

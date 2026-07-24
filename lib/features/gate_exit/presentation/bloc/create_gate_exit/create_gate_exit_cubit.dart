@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:tgbc_app/core/core.dart';
 import 'package:tgbc_app/features/gate_exit/data/gate_exit_repo.dart';
 import 'package:tgbc_app/features/gate_exit/model/gate_exit.dart';
@@ -8,6 +9,7 @@ import 'package:dartz/dartz.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:image/image.dart' as img;
 
 part 'create_gate_exit_cubit.freezed.dart';
 
@@ -18,6 +20,28 @@ class CreateGateExitCubit extends AppBaseCubit<CreateGateExitState> {
   CreateGateExitCubit(this.repo) : super(CreateGateExitState.initial());
 
   final GateExitRepo repo;
+   String? _withTimestamp(File? file) {
+    if (file == null) return null;
+
+    final bytes = file.readAsBytesSync();
+    final decoded = img.decodeImage(bytes);
+    if (decoded == null) return base64Encode(bytes);
+
+    final timestamp = DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now());
+
+    img.drawString(
+      decoded,
+      timestamp,
+      font: img.arial24,
+      x: 20,
+      y: decoded.height - img.arial24.lineHeight - 10,
+      color: img.ColorRgb8(255, 255, 255),
+    );
+
+    final jpgBytes = img.encodeJpg(decoded, quality: 80);
+    return base64Encode(jpgBytes);
+  }
+
 
   void initDetails(GateExit? gateExit) {
     if (gateExit == null) return;
@@ -53,10 +77,10 @@ class CreateGateExitCubit extends AppBaseCubit<CreateGateExitState> {
     final form = state.form;
     final vehPhoto = vehiclePhoto.isNull
         ? form.vehiclePhoto
-        : base64Encode(vehiclePhoto!.readAsBytesSync());
+        : _withTimestamp(vehiclePhoto);
     final vehBckPhoto = vehicleBackPhoto.isNull
         ? form.vehicleBackPhoto
-        : base64Encode(vehicleBackPhoto!.readAsBytesSync());
+        : _withTimestamp(vehicleBackPhoto);
     final updatedForm = form.copyWith(
       name: form.name,
       exitDate: form.exitDate,

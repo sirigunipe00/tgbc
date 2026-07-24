@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:tgbc_app/core/core.dart';
 import 'package:tgbc_app/features/gate_entry/data/gate_entry_repo.dart';
 import 'package:tgbc_app/features/gate_entry/model/gate_entry.dart';
 import 'package:tgbc_app/features/gate_entry/model/new_gate_entry_form.dart';
 
 import 'package:dartz/dartz.dart';
+import 'package:image/image.dart' as img;
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -19,6 +21,27 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
   NewGateEntryCubit(this.repo) : super(NewGateEntryState.initial());
 
   final GateEntryRepo repo;
+  String? _withTimestamp(File? file) {
+    if (file == null) return null;
+
+    final bytes = file.readAsBytesSync();
+    final decoded = img.decodeImage(bytes);
+    if (decoded == null) return base64Encode(bytes);
+
+    final timestamp = DateFormat('dd-MM-yyyy HH:mm:ss').format(DateTime.now());
+
+    img.drawString(
+      decoded,
+      timestamp,
+      font: img.arial24,
+      x: 20,
+      y: decoded.height - img.arial24.lineHeight - 10,
+      color: img.ColorRgb8(255, 255, 255),
+    );
+
+    final jpgBytes = img.encodeJpg(decoded, quality: 80);
+    return base64Encode(jpgBytes);
+  }
 
   void onValueChanged({
     String? poNumber,
@@ -36,13 +59,13 @@ class NewGateEntryCubit extends AppBaseCubit<NewGateEntryState> {
     final form = state.form;
     final vendorInvPhoto = invoicePhoto.isNull
         ? form.vendorInvPhoto
-        : base64Encode(invoicePhoto!.readAsBytesSync());
+        : _withTimestamp(invoicePhoto);
     final vehPhoto = vehiclePhoto.isNull
         ? form.vehiclePhoto
-        : base64Encode(vehiclePhoto!.readAsBytesSync());
+        : _withTimestamp(vehiclePhoto);
     final vehbackPhoto = vehicleBackPhoto.isNull
         ? form.vehicleBackPhoto
-        : base64Encode(vehicleBackPhoto!.readAsBytesSync());
+        : _withTimestamp(vehicleBackPhoto);
 
     final newForm = form.copyWith(
       poNumber: poNumber ?? form.poNumber,
